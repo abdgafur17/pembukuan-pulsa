@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Utomo Cell - Manajemen Pulsa</title>
+    <title>Utomo Cell - Manajemen Konter</title>
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
     <!-- Chart.js -->
@@ -17,7 +17,6 @@
             box-sizing: border-box;
             font-family: 'Inter', system-ui, -apple-system, sans-serif;
         }
-
         body {
             background: #f6f7fb;
             color: #1a1a2e;
@@ -25,8 +24,6 @@
             justify-content: center;
             min-height: 100vh;
         }
-
-        /* scrollbar */
         ::-webkit-scrollbar {
             width: 6px;
         }
@@ -47,7 +44,6 @@
             min-height: 100vh;
             background: linear-gradient(145deg, #f0f2f8, #e4e7f0);
         }
-
         .login-card {
             background: #ffffff;
             padding: 48px 40px 40px;
@@ -58,7 +54,6 @@
             text-align: center;
             transition: 0.3s;
         }
-
         .login-card .logo {
             font-size: 38px;
             font-weight: 700;
@@ -74,7 +69,6 @@
             font-size: 14px;
             margin-bottom: 32px;
         }
-
         .login-card label {
             display: block;
             text-align: left;
@@ -83,7 +77,6 @@
             color: #3d3d5c;
             margin: 16px 0 4px 4px;
         }
-
         .login-card input,
         .login-card select {
             width: 100%;
@@ -101,7 +94,6 @@
             background: #fff;
             box-shadow: 0 0 0 4px rgba(124, 77, 255, 0.08);
         }
-
         .login-btn {
             width: 100%;
             padding: 14px;
@@ -133,13 +125,12 @@
             min-height: 100vh;
             background: #f6f7fb;
         }
-
         .app-container {
             display: flex;
             min-height: 100vh;
         }
 
-        /* ----- SIDEBAR (Odoo style) ----- */
+        /* ----- SIDEBAR ----- */
         .sidebar {
             width: 260px;
             background: #ffffff;
@@ -153,9 +144,7 @@
             overflow-y: auto;
             flex-shrink: 0;
             box-shadow: 2px 0 12px rgba(0, 0, 0, 0.02);
-            transition: 0.3s;
         }
-
         .sidebar-brand {
             padding: 0 24px 18px 24px;
             border-bottom: 1px solid #f0f0f5;
@@ -178,7 +167,6 @@
             color: #8a8aaa;
             margin-left: 4px;
         }
-
         .sidebar-user {
             padding: 14px 24px;
             border-bottom: 1px solid #f0f0f5;
@@ -224,7 +212,6 @@
             color: #d32f2f;
             background: #fde8e8;
         }
-
         .sidebar-nav {
             flex: 1;
             padding: 16px 12px;
@@ -298,7 +285,6 @@
             overflow-y: auto;
             max-height: 100vh;
         }
-
         .page-header {
             display: flex;
             justify-content: space-between;
@@ -394,7 +380,6 @@
             border: 1px solid #edeef3;
             padding: 22px 24px;
             margin-bottom: 24px;
-            transition: 0.2s;
         }
         .card:hover {
             box-shadow: 0 6px 24px rgba(0, 0, 0, 0.04);
@@ -423,7 +408,6 @@
             border-radius: 18px;
             padding: 18px 20px;
             border: 1px solid #edeef3;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.02);
         }
         .stat-card .label {
             font-size: 13px;
@@ -435,17 +419,6 @@
             font-weight: 700;
             color: #1a1a2e;
             margin-top: 4px;
-        }
-        .stat-card .change {
-            font-size: 13px;
-            margin-top: 4px;
-            font-weight: 500;
-        }
-        .stat-card .change.up {
-            color: #2e7d5e;
-        }
-        .stat-card .change.down {
-            color: #d32f2f;
         }
 
         /* ----- TABLES ----- */
@@ -475,7 +448,7 @@
         table tr:last-child td {
             border-bottom: none;
         }
-        table .actions-cell {
+        .actions-cell {
             display: flex;
             gap: 6px;
             flex-wrap: wrap;
@@ -633,7 +606,7 @@
             padding-top: 10px;
         }
 
-        /* ----- HIDE SECTIONS ----- */
+        /* ----- PAGE SECTIONS ----- */
         .page-section {
             display: none;
         }
@@ -641,15 +614,61 @@
             display: block;
         }
 
-        /* ----- RESPONSIVE ----- */
-        @media (max-width: 1024px) {
-            .sidebar {
-                width: 220px;
-            }
-            .main-content {
-                padding: 20px;
-            }
+        .empty-state {
+            text-align: center;
+            padding: 40px 20px;
+            color: #b0b0c8;
         }
+        .empty-state i {
+            font-size: 48px;
+            margin-bottom: 12px;
+            opacity: 0.4;
+        }
+        .empty-state p {
+            font-size: 15px;
+        }
+        .text-muted {
+            color: #8a8aaa;
+        }
+        .text-center {
+            text-align: center;
+        }
+        .chart-container {
+            position: relative;
+            height: 260px;
+            margin-top: 8px;
+        }
+        .toast {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: #1a1a2e;
+            color: #fff;
+            padding: 14px 24px;
+            border-radius: 16px;
+            font-size: 14px;
+            font-weight: 500;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+            z-index: 2000;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: 0.3s;
+            pointer-events: none;
+        }
+        .toast.show {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        .toast.success {
+            background: #2e7d5e;
+        }
+        .toast.error {
+            background: #d32f2f;
+        }
+        .toast.warning {
+            background: #e67e22;
+        }
+
         @media (max-width: 768px) {
             .app-container {
                 flex-direction: column;
@@ -683,9 +702,6 @@
             .sidebar-nav .nav-item .nav-text {
                 display: none;
             }
-            .sidebar-brand span {
-                font-size: 17px;
-            }
             .main-content {
                 max-height: none;
                 padding: 16px;
@@ -711,131 +727,6 @@
                 padding: 32px 20px;
             }
         }
-
-        /* helper */
-        .text-muted {
-            color: #8a8aaa;
-        }
-        .text-success {
-            color: #2e7d5e;
-        }
-        .text-danger {
-            color: #d32f2f;
-        }
-        .text-primary {
-            color: #5c3d8a;
-        }
-        .mt-2 {
-            margin-top: 8px;
-        }
-        .mb-2 {
-            margin-bottom: 8px;
-        }
-        .flex {
-            display: flex;
-            gap: 10px;
-            flex-wrap: wrap;
-            align-items: center;
-        }
-        .gap-2 {
-            gap: 8px;
-        }
-        .w-full {
-            width: 100%;
-        }
-        .text-center {
-            text-align: center;
-        }
-        .chart-container {
-            position: relative;
-            height: 260px;
-            margin-top: 8px;
-        }
-        .chart-container-sm {
-            height: 200px;
-        }
-
-        /* Tabs inside card */
-        .tabs {
-            display: flex;
-            gap: 4px;
-            border-bottom: 2px solid #edeef3;
-            margin-bottom: 18px;
-            flex-wrap: wrap;
-        }
-        .tabs .tab {
-            padding: 8px 18px;
-            border: none;
-            background: none;
-            font-weight: 600;
-            font-size: 14px;
-            color: #8a8aaa;
-            cursor: pointer;
-            border-bottom: 3px solid transparent;
-            transition: 0.2s;
-            border-radius: 8px 8px 0 0;
-        }
-        .tabs .tab:hover {
-            color: #3d2a5c;
-            background: #f0edf8;
-        }
-        .tabs .tab.active {
-            color: #5c3d8a;
-            border-bottom-color: #5c3d8a;
-            background: transparent;
-        }
-        .tab-content {
-            display: none;
-        }
-        .tab-content.active {
-            display: block;
-        }
-
-        /* notification toast */
-        .toast {
-            position: fixed;
-            bottom: 30px;
-            right: 30px;
-            background: #1a1a2e;
-            color: #fff;
-            padding: 14px 24px;
-            border-radius: 16px;
-            font-size: 14px;
-            font-weight: 500;
-            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
-            z-index: 2000;
-            opacity: 0;
-            transform: translateY(20px);
-            transition: 0.3s;
-            pointer-events: none;
-        }
-        .toast.show {
-            opacity: 1;
-            transform: translateY(0);
-        }
-        .toast.success {
-            background: #2e7d5e;
-        }
-        .toast.error {
-            background: #d32f2f;
-        }
-        .toast.warning {
-            background: #e67e22;
-        }
-
-        .empty-state {
-            text-align: center;
-            padding: 40px 20px;
-            color: #b0b0c8;
-        }
-        .empty-state i {
-            font-size: 48px;
-            margin-bottom: 12px;
-            opacity: 0.4;
-        }
-        .empty-state p {
-            font-size: 15px;
-        }
     </style>
 </head>
 <body>
@@ -847,7 +738,7 @@
     <div id="loginPage">
         <div class="login-card">
             <div class="logo">Utomo <span>Cell</span></div>
-            <div class="subtitle">Manajemen Pulsa &amp; Konter</div>
+            <div class="subtitle">Manajemen Konter &amp; Layanan</div>
             <form id="loginForm" autocomplete="off">
                 <label for="loginUser">Pilih User</label>
                 <select id="loginUser">
@@ -914,26 +805,23 @@
                             <button class="btn btn-outline btn-sm" onclick="refreshDashboard()"><i class="fas fa-sync"></i> Refresh</button>
                         </div>
                     </div>
-
                     <div class="stats-grid" id="dashStats">
                         <div class="stat-card"><div class="label">Total Pendapatan</div><div class="value" id="dashTotalRevenue">Rp 0</div></div>
                         <div class="stat-card"><div class="label">Bulan Ini</div><div class="value" id="dashMonthRevenue">Rp 0</div></div>
                         <div class="stat-card"><div class="label">Minggu Ini</div><div class="value" id="dashWeekRevenue">Rp 0</div></div>
                         <div class="stat-card"><div class="label">Total Transaksi</div><div class="value" id="dashTotalTx">0</div></div>
                     </div>
-
                     <div class="card">
                         <div class="card-title"><i class="fas fa-chart-bar"></i> Pendapatan Bulanan</div>
                         <div class="chart-container"><canvas id="monthlyChart"></canvas></div>
                     </div>
-
                     <div class="card">
                         <div class="card-title"><i class="fas fa-chart-line"></i> Pendapatan Harian (7 hari terakhir)</div>
                         <div class="chart-container"><canvas id="dailyChart"></canvas></div>
                     </div>
                 </section>
 
-                <!-- ===== SALES (Kasir) ===== -->
+                <!-- ===== SALES ===== -->
                 <section id="section-sales" class="page-section">
                     <div class="page-header">
                         <h1>Input Penjualan <small>Kasir</small></h1>
@@ -945,7 +833,7 @@
                         <div class="card-title"><i class="fas fa-receipt"></i> Transaksi Hari Ini</div>
                         <div class="table-wrap" id="salesTodayTableWrap">
                             <table>
-                                <thead><tr><th>Waktu</th><th>Produk</th><th>Operator</th><th>Harga Jual</th><th>Metode</th><th>Status</th></tr></thead>
+                                <thead><tr><th>Waktu</th><th>Produk</th><th>Kategori</th><th>Harga Jual</th><th>Metode</th><th>Status</th></tr></thead>
                                 <tbody id="salesTodayBody"></tbody>
                             </table>
                         </div>
@@ -1008,7 +896,7 @@
                         </div>
                     </div>
                     <div class="card">
-                        <div class="table-wrap"><table><thead><tr><th>Nama</th><th>Operator</th><th>Harga Modal</th><th>Harga Jual</th><th>Stok</th><th>Aksi</th></tr></thead><tbody id="productsBody"></tbody></table></div>
+                        <div class="table-wrap"><table><thead><tr><th>Nama</th><th>Kategori</th><th>Operator/Provider</th><th>Harga Modal</th><th>Harga Jual</th><th>Stok</th><th>Aksi</th></tr></thead><tbody id="productsBody"></tbody></table></div>
                     </div>
                 </section>
 
@@ -1041,7 +929,7 @@
                 <!-- ===== SUBSCRIPTIONS ===== -->
                 <section id="section-subscriptions" class="page-section">
                     <div class="page-header">
-                        <h1>Subscription <small>Netflix, Video, dll</small></h1>
+                        <h1>Subscription <small>Netflix, Vidio, dll</small></h1>
                         <div class="actions">
                             <button class="btn btn-primary" onclick="showSubscriptionModal()"><i class="fas fa-plus"></i> Tambah Subscription</button>
                         </div>
@@ -1073,7 +961,7 @@
                         </div>
                     </div>
                     <div class="card">
-                        <div class="table-wrap"><table><thead><tr><th>Tanggal</th><th>Produk</th><th>Operator</th><th>Harga Jual</th><th>Metode</th><th>Aksi</th></tr></thead><tbody id="transactionsBody"></tbody></table></div>
+                        <div class="table-wrap"><table><thead><tr><th>Tanggal</th><th>Produk</th><th>Kategori</th><th>Harga Jual</th><th>Metode</th><th>Aksi</th></tr></thead><tbody id="transactionsBody"></tbody></table></div>
                     </div>
                 </section>
 
@@ -1097,7 +985,7 @@
                     </div>
                     <div class="card">
                         <div class="card-title"><i class="fas fa-database"></i> Data</div>
-                        <div class="flex">
+                        <div class="flex" style="display:flex;gap:10px;flex-wrap:wrap;">
                             <button class="btn btn-warning" onclick="exportData()"><i class="fas fa-download"></i> Ekspor Data</button>
                             <button class="btn btn-outline" onclick="importData()"><i class="fas fa-upload"></i> Impor Data</button>
                             <input type="file" id="importFileInput" accept=".json" style="display:none" onchange="handleImport(event)" />
@@ -1150,45 +1038,102 @@
                     { id: 'kasir1', username: 'kasir1', password: '123', role: 'kasir', name: 'Kasir 1' },
                     { id: 'kasir2', username: 'kasir2', password: '123', role: 'kasir', name: 'Kasir 2' }
                 ],
+                // Produk diperluas sesuai banner
                 products: [
-                    { id: 'p1', name: 'Pulsa 10K', operator: 'Telkomsel', priceCost: 9500, priceSell: 10500,
-                    stock: 50 },
-                    { id: 'p2', name: 'Pulsa 20K', operator: 'Telkomsel', priceCost: 19000, priceSell: 21000,
-                    stock: 40 },
-                    { id: 'p3', name: 'Pulsa 50K', operator: 'Indosat', priceCost: 48000, priceSell: 52000,
-                    stock: 30 },
-                    { id: 'p4', name: 'Pulsa 100K', operator: 'XL', priceCost: 97000, priceSell: 103000, stock: 20 },
+                    // Pulsa
+                    { id: 'p1', name: 'Pulsa 10K', category: 'Pulsa', operator: 'Telkomsel', priceCost: 9500,
+                        priceSell: 10500, stock: 50 },
+                    { id: 'p2', name: 'Pulsa 20K', category: 'Pulsa', operator: 'Telkomsel', priceCost: 19000,
+                        priceSell: 21000, stock: 40 },
+                    { id: 'p3', name: 'Pulsa 50K', category: 'Pulsa', operator: 'Indosat', priceCost: 48000,
+                        priceSell: 52000, stock: 30 },
+                    // Token Listrik
+                    { id: 'p4', name: 'Token Listrik 50K', category: 'Token Listrik', operator: 'PLN', priceCost: 50000,
+                        priceSell: 55000, stock: 20 },
+                    { id: 'p5', name: 'Token Listrik 100K', category: 'Token Listrik', operator: 'PLN', priceCost: 100000,
+                        priceSell: 105000, stock: 15 },
+                    // Paket Data
+                    { id: 'p6', name: 'Paket Data 5GB', category: 'Paket Data', operator: 'Telkomsel', priceCost: 60000,
+                        priceSell: 65000, stock: 25 },
+                    { id: 'p7', name: 'Paket Data 10GB', category: 'Paket Data', operator: 'Indosat', priceCost: 95000,
+                        priceSell: 100000, stock: 20 },
+                    // Kartu Perdana
+                    { id: 'p8', name: 'Kartu Perdana Telkomsel', category: 'Kartu Perdana', operator: 'Telkomsel',
+                        priceCost: 15000, priceSell: 20000, stock: 30 },
+                    // Tagihan PPOB (Listrik, TV, Internet)
+                    { id: 'p9', name: 'Tagihan Listrik Pascabayar', category: 'PPOB', operator: 'PLN', priceCost: 0,
+                        priceSell: 0, stock: 999 },
+                    { id: 'p10', name: 'Tagihan Internet Indihome', category: 'PPOB', operator: 'Indihome', priceCost: 0,
+                        priceSell: 0, stock: 999 },
+                    { id: 'p11', name: 'Tagihan TV Berlangganan', category: 'PPOB', operator: 'MNC Vision', priceCost: 0,
+                        priceSell: 0, stock: 999 },
+                    // E-Commerce
+                    { id: 'p12', name: 'Topup Shopee', category: 'E-Commerce', operator: 'Shopee', priceCost: 0,
+                        priceSell: 0, stock: 999 },
+                    { id: 'p13', name: 'Topup Tokopedia', category: 'E-Commerce', operator: 'Tokopedia', priceCost: 0,
+                        priceSell: 0, stock: 999 },
+                    // Voucher Game
+                    { id: 'p14', name: 'Voucher Free Fire 100', category: 'Voucher Game', operator: 'Free Fire',
+                        priceCost: 95000, priceSell: 100000, stock: 10 },
+                    { id: 'p15', name: 'Voucher Mobile Legends', category: 'Voucher Game', operator: 'Mobile Legends',
+                        priceCost: 50000, priceSell: 55000, stock: 15 },
+                    // Streaming
+                    { id: 'p16', name: 'Netflix 1 Bulan', category: 'Streaming', operator: 'Netflix', priceCost: 54000,
+                        priceSell: 59000, stock: 20 },
+                    { id: 'p17', name: 'Vidio 1 Bulan', category: 'Streaming', operator: 'Vidio', priceCost: 29000,
+                        priceSell: 34000, stock: 20 },
+                    // Transfer Bank & E-Wallet
+                    { id: 'p18', name: 'Transfer Bank (BCA)', category: 'Transfer Bank', operator: 'BCA', priceCost: 0,
+                        priceSell: 0, stock: 999 },
+                    { id: 'p19', name: 'Topup DANA', category: 'E-Wallet', operator: 'DANA', priceCost: 0, priceSell: 0,
+                        stock: 999 },
+                    { id: 'p20', name: 'Topup OVO', category: 'E-Wallet', operator: 'OVO', priceCost: 0, priceSell: 0,
+                        stock: 999 },
+                    // Tarik Tunai
+                    { id: 'p21', name: 'Tarik Tunai (BCA)', category: 'Tarik Tunai', operator: 'BCA', priceCost: 0,
+                        priceSell: 0, stock: 999 },
                 ],
                 operators: [
                     { id: 'op1', name: 'Telkomsel' },
                     { id: 'op2', name: 'Indosat' },
                     { id: 'op3', name: 'XL' },
                     { id: 'op4', name: 'Tri' },
-                    { id: 'op5', name: 'Smartfren' }
+                    { id: 'op5', name: 'Smartfren' },
+                    { id: 'op6', name: 'PLN' },
+                    { id: 'op7', name: 'Indihome' },
+                    { id: 'op8', name: 'MNC Vision' },
+                    { id: 'op9', name: 'Shopee' },
+                    { id: 'op10', name: 'Tokopedia' },
+                    { id: 'op11', name: 'Netflix' },
+                    { id: 'op12', name: 'Vidio' },
+                    { id: 'op13', name: 'DANA' },
+                    { id: 'op14', name: 'OVO' },
+                    { id: 'op15', name: 'BCA' },
+                    { id: 'op16', name: 'Free Fire' },
+                    { id: 'op17', name: 'Mobile Legends' },
                 ],
                 paymentMethods: [
                     { id: 'pm1', name: 'Cash' },
                     { id: 'pm2', name: 'BCA' },
                     { id: 'pm3', name: 'DANA' },
                     { id: 'pm4', name: 'Shopeepay' },
-                    { id: 'pm5', name: 'Dompul' },
-                    { id: 'pm6', name: 'Saveplus' }
+                    { id: 'pm5', name: 'OVO' },
+                    { id: 'pm6', name: 'GoPay' },
+                    { id: 'pm7', name: 'Transfer Bank' },
                 ],
                 subscriptions: [
                     { id: 'sub1', name: 'Netflix', monthlyCost: 54000 },
                     { id: 'sub2', name: 'Disney+', monthlyCost: 39000 },
                     { id: 'sub3', name: 'YouTube Premium', monthlyCost: 59000 },
-                    { id: 'sub4', name: 'Vidio', monthlyCost: 29000 }
+                    { id: 'sub4', name: 'Vidio', monthlyCost: 29000 },
                 ],
                 vouchers: [
                     { id: 'v1', name: 'Voucher Gesek 50K', cost: 48000 },
                     { id: 'v2', name: 'Voucher Gesek 100K', cost: 97000 },
                     { id: 'v3', name: 'Kartu Perdana Telkomsel', cost: 15000 },
-                    { id: 'v4', name: 'Kartu Perdana Indosat', cost: 12000 }
                 ],
                 transactions: [],
                 initialBalance: 1000000,
-                // pre-populate with sample data from Excel (simplified)
             };
         }
 
@@ -1199,7 +1144,6 @@
                 const raw = localStorage.getItem(STORAGE_KEY);
                 if (raw) {
                     const parsed = JSON.parse(raw);
-                    // merge with defaults to handle new fields
                     const def = defaultData();
                     for (let key in def) {
                         if (!(key in parsed)) parsed[key] = def[key];
@@ -1354,7 +1298,6 @@
                 document.getElementById('userName').textContent = user.name;
                 document.getElementById('userRole').textContent = user.role === 'admin' ? 'Administrator' : 'Kasir';
                 document.getElementById('userAvatar').textContent = user.name.charAt(0).toUpperCase();
-                // show/hide admin sections
                 const isAdmin = user.role === 'admin';
                 document.querySelectorAll('.sidebar-nav .nav-item').forEach(item => {
                     const sec = item.dataset.section;
@@ -1365,7 +1308,6 @@
                         item.style.display = isAdmin ? 'flex' : 'none';
                     }
                 });
-                // if kasir, default to sales
                 if (!isAdmin) navigateTo('sales');
                 else navigateTo('dashboard');
                 refreshAll();
@@ -1402,7 +1344,6 @@
             const page = document.getElementById('section-' + section);
             if (page) page.classList.add('active');
 
-            // refresh content
             switch (section) {
                 case 'dashboard':
                     refreshDashboard();
@@ -1467,7 +1408,6 @@
         let weekdayChartInstance = null;
 
         function refreshDashboard() {
-            // stats
             let totalRev = 0;
             data.transactions.forEach(t => totalRev += Number(t.priceSell || 0));
             document.getElementById('dashTotalRevenue').textContent = formatRupiah(totalRev);
@@ -1481,7 +1421,6 @@
 
             document.getElementById('dashTotalTx').textContent = data.transactions.length;
 
-            // monthly chart
             const ctx1 = document.getElementById('monthlyChart').getContext('2d');
             const months = [];
             const revenues = [];
@@ -1511,7 +1450,6 @@
                 }
             });
 
-            // daily chart (last 7 days)
             const ctx2 = document.getElementById('dailyChart').getContext('2d');
             const days = [];
             const dailyRevs = [];
@@ -1558,7 +1496,7 @@
             <tr>
               <td>${formatDateTime(t.createdAt)}</td>
               <td>${t.productName || t.productId || '-'}</td>
-              <td>${t.operator || '-'}</td>
+              <td>${t.category || '-'}</td>
               <td>${formatRupiah(t.priceSell)}</td>
               <td>${t.paymentMethod || '-'}</td>
               <td><span class="badge" style="background:#e8f0fe;color:#1a5c9e;padding:2px 12px;border-radius:20px;font-size:12px;">Selesai</span></td>
@@ -1572,10 +1510,7 @@
                 return;
             }
             const productOpts = data.products.map(p =>
-                `<option value="${p.id}">${p.name} (${p.operator}) - ${formatRupiah(p.priceSell)}</option>`
-            ).join('');
-            const operatorOpts = data.operators.map(o =>
-                `<option value="${o.name}">${o.name}</option>`
+                `<option value="${p.id}" data-category="${p.category}" data-operator="${p.operator}" data-price="${p.priceSell}">${p.name} (${p.category}) - ${formatRupiah(p.priceSell)}</option>`
             ).join('');
             const paymentOpts = data.paymentMethods.map(pm =>
                 `<option value="${pm.name}">${pm.name}</option>`
@@ -1589,14 +1524,18 @@
                   <select id="salesProduct" required>${productOpts}</select>
                 </div>
                 <div class="form-group">
-                  <label>Operator</label>
-                  <select id="salesOperator" required>${operatorOpts}</select>
+                  <label>Kategori</label>
+                  <input type="text" id="salesCategory" readonly />
+                </div>
+                <div class="form-group">
+                  <label>Operator/Provider</label>
+                  <input type="text" id="salesOperator" readonly />
                 </div>
                 <div class="form-group">
                   <label>Harga Jual (Rp)</label>
                   <input type="number" id="salesPrice" step="100" required placeholder="0" />
                 </div>
-                <div class="form-group">
+                <div class="form-group full">
                   <label>Metode Pembayaran</label>
                   <select id="salesPayment" required>${paymentOpts}</select>
                 </div>
@@ -1613,15 +1552,12 @@
           `;
             openModal('Input Penjualan', html);
 
-            // auto fill price from selected product
             document.getElementById('salesProduct').addEventListener('change', function() {
-                const p = data.products.find(x => x.id === this.value);
-                if (p) {
-                    document.getElementById('salesPrice').value = p.priceSell;
-                    document.getElementById('salesOperator').value = p.operator;
-                }
+                const opt = this.options[this.selectedIndex];
+                document.getElementById('salesCategory').value = opt.dataset.category || '';
+                document.getElementById('salesOperator').value = opt.dataset.operator || '';
+                document.getElementById('salesPrice').value = opt.dataset.price || '';
             });
-            // trigger initial
             setTimeout(() => {
                 const sel = document.getElementById('salesProduct');
                 if (sel) sel.dispatchEvent(new Event('change'));
@@ -1631,10 +1567,11 @@
         function submitSales(e) {
             e.preventDefault();
             const productId = document.getElementById('salesProduct').value;
-            const operator = document.getElementById('salesOperator').value;
             const priceSell = parseFloat(document.getElementById('salesPrice').value);
             const paymentMethod = document.getElementById('salesPayment').value;
             const note = document.getElementById('salesNote').value || '';
+            const category = document.getElementById('salesCategory').value;
+            const operator = document.getElementById('salesOperator').value;
 
             if (!priceSell || priceSell <= 0) {
                 showToast('Masukkan harga jual yang valid', 'error');
@@ -1645,7 +1582,8 @@
             const tx = {
                 productId: productId,
                 productName: product ? product.name : 'Unknown',
-                operator: operator,
+                category: category || (product ? product.category : ''),
+                operator: operator || (product ? product.operator : ''),
                 priceSell: priceSell,
                 priceCost: product ? product.priceCost : 0,
                 paymentMethod: paymentMethod,
@@ -1656,8 +1594,7 @@
             };
             addTransaction(tx);
 
-            // update stock
-            if (product) {
+            if (product && product.stock !== undefined && product.stock < 999) {
                 product.stock = (product.stock || 0) - 1;
                 saveData();
             }
@@ -1665,7 +1602,6 @@
             closeModal();
             showToast('Transaksi berhasil!');
             renderSalesToday();
-            // show receipt
             showReceipt(tx);
         }
 
@@ -1680,10 +1616,10 @@
             const html = `
             <div class="receipt-print" id="receiptPrintArea">
               <div class="receipt-title">UTOMO CELL</div>
-              <div style="text-align:center;font-size:12px;color:#666;margin-bottom:8px;">Konter Pulsa &amp; Elektronik</div>
+              <div style="text-align:center;font-size:12px;color:#666;margin-bottom:8px;">Konter & Layanan</div>
               <div class="row"><span>Tanggal</span><span>${formatDateTime(tx.createdAt)}</span></div>
               <div class="row"><span>Produk</span><span>${tx.productName}</span></div>
-              <div class="row"><span>Operator</span><span>${tx.operator}</span></div>
+              <div class="row"><span>Kategori</span><span>${tx.category || '-'}</span></div>
               <div class="row"><span>Metode</span><span>${tx.paymentMethod}</span></div>
               ${tx.note ? `<div class="row"><span>Catatan</span><span>${tx.note}</span></div>` : ''}
               <div class="row total"><span>Total</span><span>${formatRupiah(tx.priceSell)}</span></div>
@@ -1728,8 +1664,6 @@ if (txs.length === 0) {
 wrap.innerHTML = `<div class="empty-state"><i class="fas fa-calendar-week"></i><p>Belum ada data transaksi</p></div>`;
 return;
 }
-
-// group by week
 const weeks = {};
 txs.forEach(t => {
 const d = new Date(t.createdAt);
@@ -1738,13 +1672,11 @@ const year = d.getFullYear();
 const key = year + '-W' + String(wk).padStart(2, '0');
 if (!weeks[key]) {
 const start = startOfWeek(d);
-weeks[key] = { key, start, total: 0, count: 0, items: [] };
+weeks[key] = { key, start, total: 0, count: 0 };
 }
 weeks[key].total += Number(t.priceSell || 0);
 weeks[key].count++;
-weeks[key].items.push(t);
 });
-
 const sorted = Object.values(weeks).sort((a, b) => b.start - a.start);
 let html = `<table><thead><tr><th>Minggu</th><th>Periode</th><th>Total Pendapatan</th><th>Transaksi</th></tr></thead><tbody>`;
 sorted.slice(0, 12).forEach(w => {
@@ -1772,7 +1704,6 @@ if (txs.length === 0) {
 wrap.innerHTML = `<div class="empty-state"><i class="fas fa-calendar-alt"></i><p>Belum ada data transaksi</p></div>`;
 return;
 }
-
 const months = {};
 txs.forEach(t => {
 const d = new Date(t.createdAt);
@@ -1781,7 +1712,6 @@ if (!months[key]) months[key] = { key, year: d.getFullYear(), month: d.getMonth(
 months[key].total += Number(t.priceSell || 0);
 months[key].count++;
 });
-
 const sorted = Object.values(months).sort((a, b) => (b.year - a.year) || (b.month - a.month));
 let html = `<table><thead><tr><th>Bulan</th><th>Total Pendapatan</th><th>Transaksi</th></tr></thead><tbody>`;
 sorted.slice(0, 12).forEach(m => {
@@ -1806,8 +1736,6 @@ document.getElementById('peakDaysWrap').innerHTML = `<div class="empty-state"><i
 document.getElementById('slowDaysWrap').innerHTML = '';
 return;
 }
-
-// group by day
 const days = {};
 txs.forEach(t => {
 const key = t.createdAt.slice(0, 10);
@@ -1815,7 +1743,6 @@ if (!days[key]) days[key] = { date: key, total: 0, count: 0 };
 days[key].total += Number(t.priceSell || 0);
 days[key].count++;
 });
-
 const sorted = Object.values(days).sort((a, b) => b.total - a.total);
 const top = sorted.slice(0, 5);
 const bottom = sorted.slice(-5).reverse();
@@ -1834,7 +1761,6 @@ slowHtml += `<tr><td>${formatDate(d.date)}</td><td>${formatRupiah(d.total)}</td>
 slowHtml += `</tbody></table>`;
 document.getElementById('slowDaysWrap').innerHTML = slowHtml;
 
-// weekday distribution
 const wd = [0, 0, 0, 0, 0, 0, 0];
 const wdNames = ['Min', 'Sen', 'Sel', 'Rab', 'Kam', 'Jum', 'Sab'];
 txs.forEach(t => {
@@ -1842,7 +1768,6 @@ const d = new Date(t.createdAt);
 const day = d.getDay();
 wd[day] += Number(t.priceSell || 0);
 });
-
 const ctx = document.getElementById('weekdayChart').getContext('2d');
 if (weekdayChartInstance) weekdayChartInstance.destroy();
 weekdayChartInstance = new Chart(ctx, {
@@ -1867,16 +1792,17 @@ scales: { y: { beginAtZero: true, ticks: { callback: v => 'Rp ' + (v / 1000) + '
 function renderProducts() {
 const tbody = document.getElementById('productsBody');
 if (data.products.length === 0) {
-tbody.innerHTML = `<tr><td colspan="6" class="text-center text-muted" style="padding:24px;">Belum ada produk</td></tr>`;
+tbody.innerHTML = `<tr><td colspan="7" class="text-center text-muted" style="padding:24px;">Belum ada produk</td></tr>`;
 return;
 }
 tbody.innerHTML = data.products.map(p => `
 <tr>
   <td><strong>${p.name}</strong></td>
-  <td>${p.operator}</td>
+  <td>${p.category || '-'}</td>
+  <td>${p.operator || '-'}</td>
   <td>${formatRupiah(p.priceCost)}</td>
   <td>${formatRupiah(p.priceSell)}</td>
-  <td>${p.stock ?? 0}</td>
+  <td>${p.stock !== undefined ? (p.stock >= 999 ? '∞' : p.stock) : '∞'}</td>
   <td>
     <div class="actions-cell">
       <button class="btn btn-sm btn-outline" onclick="editProduct('${p.id}')"><i class="fas fa-edit"></i></button>
@@ -1893,6 +1819,8 @@ const p = isEdit ? data.products.find(x => x.id === editId) : null;
 const operatorOpts = data.operators.map(o =>
 `<option value="${o.name}" ${p && p.operator === o.name ? 'selected' : ''}>${o.name}</option>`
 ).join('');
+const categoryOpts = ['Pulsa', 'Token Listrik', 'Paket Data', 'Kartu Perdana', 'PPOB', 'E-Commerce', 'Voucher Game', 'Streaming', 'Transfer Bank', 'E-Wallet', 'Tarik Tunai', 'Lainnya']
+.map(c => `<option value="${c}" ${p && p.category === c ? 'selected' : ''}>${c}</option>`).join('');
 
 const html = `
 <form id="productForm" onsubmit="submitProduct(event, '${editId || ''}')">
@@ -1902,20 +1830,24 @@ const html = `
       <input type="text" id="prodName" value="${p ? p.name : ''}" required />
     </div>
     <div class="form-group">
-      <label>Operator</label>
-      <select id="prodOperator" required>${operatorOpts}</select>
+      <label>Kategori</label>
+      <select id="prodCategory">${categoryOpts}</select>
+    </div>
+    <div class="form-group">
+      <label>Operator/Provider</label>
+      <select id="prodOperator">${operatorOpts}</select>
     </div>
     <div class="form-group">
       <label>Harga Modal (Rp)</label>
-      <input type="number" id="prodCost" value="${p ? p.priceCost : ''}" step="100" required />
+      <input type="number" id="prodCost" value="${p ? p.priceCost : 0}" step="100" />
     </div>
     <div class="form-group">
       <label>Harga Jual (Rp)</label>
-      <input type="number" id="prodSell" value="${p ? p.priceSell : ''}" step="100" required />
+      <input type="number" id="prodSell" value="${p ? p.priceSell : 0}" step="100" required />
     </div>
-    <div class="form-group full">
+    <div class="form-group">
       <label>Stok</label>
-      <input type="number" id="prodStock" value="${p ? p.stock : 0}" step="1" required />
+      <input type="number" id="prodStock" value="${p && p.stock !== undefined ? p.stock : 999}" step="1" />
     </div>
     <div class="form-group full" style="display:flex;gap:10px;flex-wrap:wrap;">
       <button type="submit" class="btn btn-primary"><i class="fas fa-save"></i> ${isEdit ? 'Update' : 'Tambah'}</button>
@@ -1930,35 +1862,26 @@ openModal(isEdit ? 'Edit Produk' : 'Tambah Produk', html);
 function submitProduct(e, id) {
 e.preventDefault();
 const name = document.getElementById('prodName').value.trim();
+const category = document.getElementById('prodCategory').value;
 const operator = document.getElementById('prodOperator').value;
-const cost = parseFloat(document.getElementById('prodCost').value);
+const cost = parseFloat(document.getElementById('prodCost').value) || 0;
 const sell = parseFloat(document.getElementById('prodSell').value);
-const stock = parseInt(document.getElementById('prodStock').value) || 0;
+const stock = parseInt(document.getElementById('prodStock').value) || 999;
 
-if (!name || !operator || !cost || !sell) {
-showToast('Semua field harus diisi', 'error');
-return;
-}
+if (!name || !sell) { showToast('Nama dan harga jual wajib diisi', 'error'); return; }
 
 if (id) {
-// edit
 const p = data.products.find(x => x.id === id);
 if (p) {
 p.name = name;
+p.category = category;
 p.operator = operator;
 p.priceCost = cost;
 p.priceSell = sell;
 p.stock = stock;
 }
 } else {
-data.products.push({
-id: generateId(),
-name,
-operator,
-priceCost: cost,
-priceSell: sell,
-stock
-});
+data.products.push({ id: generateId(), name, category, operator, priceCost: cost, priceSell: sell, stock });
 }
 saveData();
 closeModal();
@@ -1966,9 +1889,7 @@ showToast(id ? 'Produk diupdate' : 'Produk ditambahkan');
 renderProducts();
 }
 
-function editProduct(id) {
-showProductModal(id);
-}
+function editProduct(id) { showProductModal(id); }
 
 function deleteProduct(id) {
 if (!confirm('Hapus produk ini?')) return;
@@ -1979,7 +1900,7 @@ showToast('Produk dihapus');
 }
 
 // ================================================================
-//  OPERATORS (Admin)
+//  OPERATORS, PAYMENTS, SUBSCRIPTIONS, VOUCHERS (sama seperti sebelumnya)
 // ================================================================
 
 function renderOperators() {
@@ -1989,41 +1910,30 @@ tbody.innerHTML = `<tr><td colspan="2" class="text-center text-muted" style="pad
 return;
 }
 tbody.innerHTML = data.operators.map(o => `
-<tr>
-  <td><strong>${o.name}</strong></td>
-  <td>
-    <button class="btn btn-sm btn-danger" onclick="deleteOperator('${o.id}')"><i class="fas fa-trash"></i></button>
-  </td>
-</tr>
-`).join('');
+<tr><td><strong>${o.name}</strong></td>
+  <td><button class="btn btn-sm btn-danger" onclick="deleteOperator('${o.id}')"><i class="fas fa-trash"></i></button></td>
+</tr>`).join('');
 }
 
 function showOperatorModal() {
 const html = `
 <form id="operatorForm" onsubmit="submitOperator(event)">
   <div class="form-grid">
-    <div class="form-group full">
-      <label>Nama Operator</label>
-      <input type="text" id="opName" placeholder="Contoh: Telkomsel" required />
-    </div>
+    <div class="form-group full"><label>Nama Operator</label><input type="text" id="opName" required /></div>
     <div class="form-group full" style="display:flex;gap:10px;flex-wrap:wrap;">
       <button type="submit" class="btn btn-primary"><i class="fas fa-plus"></i> Tambah</button>
       <button type="button" class="btn btn-outline" onclick="closeModal()">Batal</button>
     </div>
   </div>
-</form>
-`;
+</form>`;
 openModal('Tambah Operator', html);
 }
 
 function submitOperator(e) {
 e.preventDefault();
 const name = document.getElementById('opName').value.trim();
-if (!name) { showToast('Masukkan nama operator', 'error'); return; }
-if (data.operators.some(o => o.name.toLowerCase() === name.toLowerCase())) {
-showToast('Operator sudah ada', 'warning');
-return;
-}
+if (!name) return showToast('Masukkan nama', 'error');
+if (data.operators.some(o => o.name.toLowerCase() === name.toLowerCase())) return showToast('Sudah ada', 'warning');
 data.operators.push({ id: generateId(), name });
 saveData();
 closeModal();
@@ -2032,17 +1942,14 @@ showToast('Operator ditambahkan');
 }
 
 function deleteOperator(id) {
-if (!confirm('Hapus operator ini?')) return;
+if (!confirm('Hapus operator?')) return;
 data.operators = data.operators.filter(o => o.id !== id);
 saveData();
 renderOperators();
 showToast('Operator dihapus');
 }
 
-// ================================================================
-//  PAYMENT METHODS (Admin)
-// ================================================================
-
+// PAYMENTS
 function renderPayments() {
 const tbody = document.getElementById('paymentsBody');
 if (data.paymentMethods.length === 0) {
@@ -2050,41 +1957,31 @@ tbody.innerHTML = `<tr><td colspan="2" class="text-center text-muted" style="pad
 return;
 }
 tbody.innerHTML = data.paymentMethods.map(pm => `
-<tr>
-  <td><strong>${pm.name}</strong></td>
-  <td>
-    <button class="btn btn-sm btn-danger" onclick="deletePayment('${pm.id}')"><i class="fas fa-trash"></i></button>
-  </td>
-</tr>
-`).join('');
+<tr><td><strong>${pm.name}</strong></td>
+  <td><button class="btn btn-sm btn-danger" onclick="deletePayment('${pm.id}')"><i class="fas fa-trash"></i></button></td>
+</tr>`).join('');
 }
 
 function showPaymentModal() {
 const html = `
 <form id="paymentForm" onsubmit="submitPayment(event)">
   <div class="form-grid">
-    <div class="form-group full">
-      <label>Nama Metode Pembayaran</label>
-      <input type="text" id="pmName" placeholder="Contoh: BCA" required />
-    </div>
+    <div class="form-group full"><label>Nama Metode</label><input type="text" id="pmName" required /></div>
     <div class="form-group full" style="display:flex;gap:10px;flex-wrap:wrap;">
       <button type="submit" class="btn btn-primary"><i class="fas fa-plus"></i> Tambah</button>
       <button type="button" class="btn btn-outline" onclick="closeModal()">Batal</button>
     </div>
   </div>
-</form>
-`;
+</form>`;
 openModal('Tambah Metode Pembayaran', html);
 }
 
 function submitPayment(e) {
 e.preventDefault();
 const name = document.getElementById('pmName').value.trim();
-if (!name) { showToast('Masukkan nama metode', 'error'); return; }
-if (data.paymentMethods.some(p => p.name.toLowerCase() === name.toLowerCase())) {
-showToast('Metode sudah ada', 'warning');
-return;
-}
+if (!name) return showToast('Masukkan nama', 'error');
+if (data.paymentMethods.some(p => p.name.toLowerCase() === name.toLowerCase())) return showToast('Sudah ada',
+'warning');
 data.paymentMethods.push({ id: generateId(), name });
 saveData();
 closeModal();
@@ -2093,17 +1990,14 @@ showToast('Metode ditambahkan');
 }
 
 function deletePayment(id) {
-if (!confirm('Hapus metode ini?')) return;
+if (!confirm('Hapus metode?')) return;
 data.paymentMethods = data.paymentMethods.filter(p => p.id !== id);
 saveData();
 renderPayments();
 showToast('Metode dihapus');
 }
 
-// ================================================================
-//  SUBSCRIPTIONS (Admin)
-// ================================================================
-
+// SUBSCRIPTIONS
 function renderSubscriptions() {
 const tbody = document.getElementById('subscriptionsBody');
 if (data.subscriptions.length === 0) {
@@ -2111,35 +2005,23 @@ tbody.innerHTML = `<tr><td colspan="3" class="text-center text-muted" style="pad
 return;
 }
 tbody.innerHTML = data.subscriptions.map(s => `
-<tr>
-  <td><strong>${s.name}</strong></td>
-  <td>${formatRupiah(s.monthlyCost)}</td>
-  <td>
-    <button class="btn btn-sm btn-danger" onclick="deleteSubscription('${s.id}')"><i class="fas fa-trash"></i></button>
-  </td>
-</tr>
-`).join('');
+<tr><td><strong>${s.name}</strong></td><td>${formatRupiah(s.monthlyCost)}</td>
+  <td><button class="btn btn-sm btn-danger" onclick="deleteSubscription('${s.id}')"><i class="fas fa-trash"></i></button></td>
+</tr>`).join('');
 }
 
 function showSubscriptionModal() {
 const html = `
 <form id="subForm" onsubmit="submitSubscription(event)">
   <div class="form-grid">
-    <div class="form-group">
-      <label>Nama Subscription</label>
-      <input type="text" id="subName" placeholder="Netflix" required />
-    </div>
-    <div class="form-group">
-      <label>Biaya Bulanan (Rp)</label>
-      <input type="number" id="subCost" step="1000" required />
-    </div>
+    <div class="form-group"><label>Nama</label><input type="text" id="subName" required /></div>
+    <div class="form-group"><label>Biaya Bulanan</label><input type="number" id="subCost" step="1000" required /></div>
     <div class="form-group full" style="display:flex;gap:10px;flex-wrap:wrap;">
       <button type="submit" class="btn btn-primary"><i class="fas fa-plus"></i> Tambah</button>
       <button type="button" class="btn btn-outline" onclick="closeModal()">Batal</button>
     </div>
   </div>
-</form>
-`;
+</form>`;
 openModal('Tambah Subscription', html);
 }
 
@@ -2147,7 +2029,7 @@ function submitSubscription(e) {
 e.preventDefault();
 const name = document.getElementById('subName').value.trim();
 const cost = parseFloat(document.getElementById('subCost').value);
-if (!name || !cost) { showToast('Isi semua field', 'error'); return; }
+if (!name || !cost) return showToast('Isi semua field', 'error');
 data.subscriptions.push({ id: generateId(), name, monthlyCost: cost });
 saveData();
 closeModal();
@@ -2156,17 +2038,14 @@ showToast('Subscription ditambahkan');
 }
 
 function deleteSubscription(id) {
-if (!confirm('Hapus subscription ini?')) return;
+if (!confirm('Hapus subscription?')) return;
 data.subscriptions = data.subscriptions.filter(s => s.id !== id);
 saveData();
 renderSubscriptions();
 showToast('Subscription dihapus');
 }
 
-// ================================================================
-//  VOUCHERS (Admin)
-// ================================================================
-
+// VOUCHERS
 function renderVouchers() {
 const tbody = document.getElementById('vouchersBody');
 if (data.vouchers.length === 0) {
@@ -2174,35 +2053,23 @@ tbody.innerHTML = `<tr><td colspan="3" class="text-center text-muted" style="pad
 return;
 }
 tbody.innerHTML = data.vouchers.map(v => `
-<tr>
-  <td><strong>${v.name}</strong></td>
-  <td>${formatRupiah(v.cost)}</td>
-  <td>
-    <button class="btn btn-sm btn-danger" onclick="deleteVoucher('${v.id}')"><i class="fas fa-trash"></i></button>
-  </td>
-</tr>
-`).join('');
+<tr><td><strong>${v.name}</strong></td><td>${formatRupiah(v.cost)}</td>
+  <td><button class="btn btn-sm btn-danger" onclick="deleteVoucher('${v.id}')"><i class="fas fa-trash"></i></button></td>
+</tr>`).join('');
 }
 
 function showVoucherModal() {
 const html = `
 <form id="voucherForm" onsubmit="submitVoucher(event)">
   <div class="form-grid">
-    <div class="form-group">
-      <label>Nama Voucher</label>
-      <input type="text" id="voucherName" placeholder="Voucher Gesek 50K" required />
-    </div>
-    <div class="form-group">
-      <label>Harga Modal (Rp)</label>
-      <input type="number" id="voucherCost" step="100" required />
-    </div>
+    <div class="form-group"><label>Nama Voucher</label><input type="text" id="voucherName" required /></div>
+    <div class="form-group"><label>Harga Modal</label><input type="number" id="voucherCost" step="100" required /></div>
     <div class="form-group full" style="display:flex;gap:10px;flex-wrap:wrap;">
       <button type="submit" class="btn btn-primary"><i class="fas fa-plus"></i> Tambah</button>
       <button type="button" class="btn btn-outline" onclick="closeModal()">Batal</button>
     </div>
   </div>
-</form>
-`;
+</form>`;
 openModal('Tambah Voucher', html);
 }
 
@@ -2210,7 +2077,7 @@ function submitVoucher(e) {
 e.preventDefault();
 const name = document.getElementById('voucherName').value.trim();
 const cost = parseFloat(document.getElementById('voucherCost').value);
-if (!name || !cost) { showToast('Isi semua field', 'error'); return; }
+if (!name || !cost) return showToast('Isi semua field', 'error');
 data.vouchers.push({ id: generateId(), name, cost });
 saveData();
 closeModal();
@@ -2219,7 +2086,7 @@ showToast('Voucher ditambahkan');
 }
 
 function deleteVoucher(id) {
-if (!confirm('Hapus voucher ini?')) return;
+if (!confirm('Hapus voucher?')) return;
 data.vouchers = data.vouchers.filter(v => v.id !== id);
 saveData();
 renderVouchers();
@@ -2241,7 +2108,7 @@ tbody.innerHTML = txs.slice(0, 100).map(t => `
 <tr>
   <td>${formatDateTime(t.createdAt)}</td>
   <td>${t.productName || t.productId || '-'}</td>
-  <td>${t.operator || '-'}</td>
+  <td>${t.category || '-'}</td>
   <td>${formatRupiah(t.priceSell)}</td>
   <td>${t.paymentMethod || '-'}</td>
   <td>
@@ -2250,8 +2117,7 @@ tbody.innerHTML = txs.slice(0, 100).map(t => `
       <button class="btn btn-sm btn-danger" onclick="deleteTransaction('${t.id}')"><i class="fas fa-trash"></i></button>
     </div>
   </td>
-</tr>
-`).join('');
+</tr>`).join('');
 }
 
 function editTransaction(id) {
@@ -2259,9 +2125,6 @@ const tx = data.transactions.find(t => t.id === id);
 if (!tx) return;
 const productOpts = data.products.map(p =>
 `<option value="${p.id}" ${p.id === tx.productId ? 'selected' : ''}>${p.name}</option>`
-).join('');
-const operatorOpts = data.operators.map(o =>
-`<option value="${o.name}" ${o.name === tx.operator ? 'selected' : ''}>${o.name}</option>`
 ).join('');
 const paymentOpts = data.paymentMethods.map(pm =>
 `<option value="${pm.name}" ${pm.name === tx.paymentMethod ? 'selected' : ''}>${pm.name}</option>`
@@ -2275,8 +2138,8 @@ const html = `
       <select id="editTxProduct">${productOpts}</select>
     </div>
     <div class="form-group">
-      <label>Operator</label>
-      <select id="editTxOperator">${operatorOpts}</select>
+      <label>Kategori</label>
+      <input type="text" id="editTxCategory" value="${tx.category || ''}" readonly />
     </div>
     <div class="form-group">
       <label>Harga Jual (Rp)</label>
@@ -2295,9 +2158,17 @@ const html = `
       <button type="button" class="btn btn-outline" onclick="closeModal()">Batal</button>
     </div>
   </div>
-</form>
-`;
+</form>`;
 openModal('Edit Transaksi', html);
+
+document.getElementById('editTxProduct').addEventListener('change', function() {
+const p = data.products.find(pr => pr.id === this.value);
+if (p) document.getElementById('editTxCategory').value = p.category || '';
+});
+setTimeout(() => {
+const sel = document.getElementById('editTxProduct');
+if (sel) sel.dispatchEvent(new Event('change'));
+}, 50);
 }
 
 function submitEditTx(e, id) {
@@ -2305,12 +2176,13 @@ e.preventDefault();
 const tx = data.transactions.find(t => t.id === id);
 if (!tx) return;
 tx.productId = document.getElementById('editTxProduct').value;
-tx.operator = document.getElementById('editTxOperator').value;
 tx.priceSell = parseFloat(document.getElementById('editTxPrice').value);
 tx.paymentMethod = document.getElementById('editTxPayment').value;
 tx.note = document.getElementById('editTxNote').value || '';
 const product = data.products.find(p => p.id === tx.productId);
 tx.productName = product ? product.name : 'Unknown';
+tx.category = product ? product.category : '';
+tx.operator = product ? product.operator : '';
 tx.priceCost = product ? product.priceCost : 0;
 saveData();
 closeModal();
@@ -2338,10 +2210,7 @@ document.getElementById('initialBalanceDisplay').textContent =
 
 function saveInitialBalance() {
 const val = parseFloat(document.getElementById('initialBalanceInput').value);
-if (isNaN(val) || val < 0) {
-showToast('Masukkan angka yang valid', 'error');
-return;
-}
+if (isNaN(val) || val < 0) return showToast('Masukkan angka valid', 'error');
 data.initialBalance = val;
 saveData();
 renderSettings();
@@ -2363,9 +2232,7 @@ URL.revokeObjectURL(url);
 showToast('Data diekspor');
 }
 
-function importData() {
-document.getElementById('importFileInput').click();
-}
+function importData() { document.getElementById('importFileInput').click(); }
 
 function handleImport(e) {
 const file = e.target.files[0];
@@ -2400,32 +2267,29 @@ showToast('Data direset ke default');
 }
 
 // ================================================================
-//  INIT
+//  SEED SAMPLE DATA
 // ================================================================
 
-// pre-fill some sample transactions if empty
 function seedSampleData() {
 if (data.transactions.length === 0) {
 const now = new Date();
-for (let i = 0; i < 20; i++) {
-const d = new Date(now);
-d.setDate(d.getDate() - i * 2);
 const products = data.products;
+for (let i = 0; i < 25; i++) {
+const d = new Date(now);
+d.setDate(d.getDate() - i * 1.5);
 const p = products[i % products.length];
-const ops = data.operators;
-const op = ops[i % ops.length];
-const pms = data.paymentMethods;
-const pm = pms[i % pms.length];
+const pm = data.paymentMethods[i % data.paymentMethods.length];
 const price = p.priceSell + (Math.random() * 2000 - 1000);
 data.transactions.push({
 id: generateId(),
 productId: p.id,
 productName: p.name,
-operator: op.name,
+category: p.category,
+operator: p.operator,
 priceSell: Math.round(price / 100) * 100,
 priceCost: p.priceCost,
 paymentMethod: pm.name,
-note: i % 3 === 0 ? 'Transfer via Shopee' : '',
+note: i % 3 === 0 ? 'Via Shopee' : '',
 type: 'sale',
 userId: 'kasir1',
 userName: 'Kasir 1',
@@ -2438,14 +2302,9 @@ saveData();
 
 seedSampleData();
 
-// auto-login for demo (optional) — disabled, user must click login
-
-console.log('Utomo Cell App loaded. Data:', data);
-
 // ================================================================
-//  KEYBOARD SHORTCUT: ESC to close modal
+//  KEYBOARD SHORTCUT
 // ================================================================
-
 document.addEventListener('keydown', function(e) {
 if (e.key === 'Escape') {
 closeModal();
@@ -2453,12 +2312,7 @@ document.getElementById('receiptModalOverlay').classList.remove('show');
 }
 });
 
-// ================================================================
-//  SIDEBAR TOGGLE FOR MOBILE (optional)
-// ================================================================
-
-// Ensure sidebar nav items with admin-only are hidden initially
-// This will be re-evaluated on login
+console.log('Utomo Cell App loaded with expanded products.');
 </script>
 </body>
 </html>
