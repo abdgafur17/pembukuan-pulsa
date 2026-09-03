@@ -3,1502 +3,2083 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pembukuan Konter Pulsa UMKM</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.25/jspdf.plugin.autotable.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
+    <title>Konter Pulsa Pro - Pencatatan & Laporan</title>
     <style>
         :root {
-            --primary: #4361ee;
-            --secondary: #3f37c9;
-            --success: #4cc9f0;
-            --danger: #f72585;
-            --warning: #ff9e00;
-            --light: #f8f9fa;
-            --dark: #212529;
-            --profit: #4ade80;
-            --loss: #ff6b6b;
+            --primary: #667eea;
+            --primary-dark: #5a67d8;
+            --secondary: #764ba2;
+            --success: #22c55e;
+            --danger: #ef4444;
+            --warning: #f59e0b;
+            --info: #3b82f6;
+            --bg: #f8fafc;
+            --card: #ffffff;
+            --text: #1e293b;
+            --text-secondary: #64748b;
+            --border: #e2e8f0;
+            --shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+            --shadow-lg: 0 4px 12px rgba(0, 0, 0, 0.08);
+            --radius: 16px;
+            --radius-sm: 10px;
         }
-        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
         body {
-            background-color: #f5f7fb;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            color: #333;
-            padding-bottom: 50px;
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            min-height: 100vh;
         }
-        
-        .header {
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-            color: white;
-            border-radius: 0 0 20px 20px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-            padding: 20px 0;
-            margin-bottom: 30px;
+        .login-page {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 20px;
         }
-        
-        .card {
-            border-radius: 15px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+        .login-box {
+            background: #fff;
+            border-radius: 24px;
+            padding: 40px;
+            width: 100%;
+            max-width: 420px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        }
+        .login-box .logo {
+            width: 60px;
+            height: 60px;
+            border-radius: 16px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            font-weight: 800;
+            font-size: 24px;
+            margin: 0 auto 20px;
+        }
+        .login-box h2 {
+            text-align: center;
+            margin-bottom: 8px;
+            font-size: 22px;
+        }
+        .login-box p {
+            text-align: center;
+            color: var(--text-secondary);
+            margin-bottom: 28px;
+            font-size: 14px;
+        }
+        .login-box .form-group {
+            margin-bottom: 16px;
+        }
+        .login-box label {
+            display: block;
+            font-size: 13px;
+            font-weight: 600;
+            margin-bottom: 6px;
+            color: #374151;
+        }
+        .login-box input {
+            width: 100%;
+            padding: 12px 16px;
+            border: 1.5px solid var(--border);
+            border-radius: 12px;
+            font-size: 14px;
+            outline: none;
+            transition: all 0.2s;
+        }
+        .login-box input:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.15);
+        }
+        .login-box button {
+            width: 100%;
+            padding: 14px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #fff;
             border: none;
-            margin-bottom: 25px;
+            border-radius: 12px;
+            font-weight: 700;
+            font-size: 15px;
+            cursor: pointer;
+            margin-top: 8px;
+            transition: transform 0.2s;
+        }
+        .login-box button:hover {
+            transform: translateY(-1px);
+        }
+        .login-hint {
+            margin-top: 20px;
+            padding: 12px;
+            background: #f8fafc;
+            border-radius: 10px;
+            font-size: 12px;
+            color: var(--text-secondary);
+        }
+        .login-hint code {
+            background: #e2e8f0;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: monospace;
+            color: var(--text);
+        }
+        .app-layout {
+            display: flex;
+            min-height: 100vh;
+        }
+        .sidebar {
+            width: 260px;
+            background: #fff;
+            border-right: 1px solid var(--border);
+            display: flex;
+            flex-direction: column;
+            position: fixed;
+            height: 100vh;
+            z-index: 100;
             transition: transform 0.3s;
         }
-        
-        .card:hover {
-            transform: translateY(-5px);
+        .sidebar-header {
+            padding: 20px;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            gap: 12px;
         }
-        
-        .card-header {
-            background-color: white;
-            border-bottom: 2px solid rgba(67, 97, 238, 0.1);
-            font-weight: 600;
-            border-radius: 15px 15px 0 0 !important;
-            padding: 15px 20px;
+        .sidebar-header .logo {
+            width: 40px;
+            height: 40px;
+            border-radius: 12px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            font-weight: 700;
+            font-size: 16px;
         }
-        
-        .btn-primary {
-            background-color: var(--primary);
-            border: none;
-            padding: 8px 20px;
-            border-radius: 8px;
-            font-weight: 500;
-        }
-        
-        .btn-primary:hover {
-            background-color: var(--secondary);
-        }
-        
-        .btn-danger {
-            background-color: var(--danger);
-            border: none;
-            border-radius: 8px;
-            padding: 5px 12px;
-        }
-        
-        .summary-card {
-            text-align: center;
-            padding: 15px;
-        }
-        
-        .summary-card h5 {
-            font-size: 1.1rem;
-            color: #666;
-            margin-bottom: 10px;
-        }
-        
-        .summary-card .value {
-            font-size: 1.8rem;
+        .sidebar-header .brand h1 {
+            font-size: 15px;
             font-weight: 700;
         }
-        
-        .summary-card.income { border-top: 4px solid #4cc9f0; }
-        .summary-card.expense { border-top: 4px solid #f72585; }
-        .summary-card.profit { border-top: 4px solid var(--profit); }
-        .summary-card.stock { border-top: 4px solid #ff9e00; }
-        
-        .form-control, .form-select {
-            border-radius: 8px;
-            padding: 10px 15px;
-            border: 1px solid #e0e0e0;
+        .sidebar-header .brand p {
+            font-size: 11px;
+            color: var(--text-secondary);
         }
-        
-        .form-control:focus, .form-select:focus {
-            border-color: var(--primary);
-            box-shadow: 0 0 0 0.25rem rgba(67, 97, 238, 0.25);
+        .sidebar-nav {
+            flex: 1;
+            padding: 12px;
+            overflow-y: auto;
         }
-        
-        table {
-            width: 100%;
+        .nav-section {
+            margin-bottom: 8px;
         }
-        
-        th {
-            background-color: rgba(67, 97, 238, 0.05);
-            font-weight: 600;
+        .nav-section-title {
+            font-size: 10px;
+            font-weight: 700;
+            text-transform: uppercase;
+            color: #94a3b8;
+            padding: 8px 12px 4px;
+            letter-spacing: 0.5px;
         }
-        
-        .chart-container {
-            position: relative;
-            height: 300px;
-            margin-top: 20px;
-        }
-        
-        .rupiah {
-            font-weight: 600;
-            color: #4361ee;
-        }
-        
-        .negative {
-            color: var(--danger);
-        }
-        
-        .positive {
-            color: var(--profit);
-        }
-        
-        .footer {
-            background-color: var(--light);
-            padding: 20px 0;
-            text-align: center;
-            margin-top: 30px;
-            border-radius: 20px 20px 0 0;
-            color: #666;
-            position: fixed;
-            bottom: 0;
-            width: 100%;
-        }
-        
-        .action-cell {
-            width: 100px;
-        }
-        
-        .btn-sm {
-            padding: 3px 8px;
-            font-size: 0.85rem;
-        }
-        
-        .month-selector {
+        .nav-item {
             display: flex;
-            gap: 10px;
             align-items: center;
-            margin-bottom: 20px;
-            background: white;
-            padding: 15px;
-            border-radius: 10px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            gap: 10px;
+            padding: 10px 12px;
+            border-radius: var(--radius-sm);
+            color: var(--text-secondary);
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s;
+            border: none;
+            background: transparent;
+            width: 100%;
+            text-align: left;
         }
-        
-        .closing-statement {
-            background: white;
-            border-radius: 10px;
-            padding: 20px;
-            margin-top: 20px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        .nav-item:hover {
+            background: #f1f5f9;
+            color: var(--text);
         }
-        
-        .closing-statement h3 {
-            margin-bottom: 20px;
+        .nav-item.active {
+            background: #f0f4ff;
             color: var(--primary);
+            font-weight: 600;
+        }
+        .nav-item .icon {
+            font-size: 18px;
+            width: 24px;
+            text-align: center;
+        }
+        .sidebar-footer {
+            padding: 16px;
+            border-top: 1px solid var(--border);
+        }
+        .user-card {
             display: flex;
             align-items: center;
             gap: 10px;
+            padding: 10px;
+            background: #f8fafc;
+            border-radius: 12px;
         }
-        
-        .emoji-status {
-            font-size: 1.5rem;
-            margin-left: 10px;
+        .user-avatar {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            font-weight: 700;
+            font-size: 14px;
         }
-        
-        .export-buttons {
+        .user-info {
+            flex: 1;
+        }
+        .user-info .name {
+            font-size: 13px;
+            font-weight: 600;
+        }
+        .user-info .role {
+            font-size: 11px;
+            color: var(--text-secondary);
+        }
+        .logout-btn {
+            background: transparent;
+            border: none;
+            color: var(--danger);
+            cursor: pointer;
+            font-size: 18px;
+            padding: 4px;
+            border-radius: 6px;
+            transition: background 0.2s;
+        }
+        .logout-btn:hover {
+            background: #fee2e2;
+        }
+        .main-content {
+            flex: 1;
+            margin-left: 260px;
+            min-height: 100vh;
+        }
+        .topbar {
+            background: #fff;
+            border-bottom: 1px solid var(--border);
+            padding: 16px 28px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            position: sticky;
+            top: 0;
+            z-index: 50;
+        }
+        .topbar h2 {
+            font-size: 20px;
+            font-weight: 700;
+        }
+        .topbar-right {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .saldo-badge {
+            background: linear-gradient(135deg, #dcfce7 0%, #bbf7d0 100%);
+            color: #166534;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .mobile-toggle {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 22px;
+            cursor: pointer;
+        }
+        .page-container {
+            padding: 24px 28px;
+            max-width: 1200px;
+        }
+        .card {
+            background: var(--card);
+            border-radius: var(--radius);
+            border: 1px solid var(--border);
+            box-shadow: var(--shadow);
+            padding: 24px;
+        }
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        .card-header h3 {
+            font-size: 16px;
+            font-weight: 700;
+        }
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            padding: 10px 18px;
+            border-radius: 10px;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            border: none;
+            transition: all 0.2s;
+        }
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #fff;
+            box-shadow: 0 4px 14px rgba(102, 126, 234, 0.35);
+        }
+        .btn-primary:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.45);
+        }
+        .btn-secondary {
+            background: #f1f5f9;
+            color: var(--text);
+        }
+        .btn-secondary:hover {
+            background: #e2e8f0;
+        }
+        .btn-danger {
+            background: #fee2e2;
+            color: #991b1b;
+        }
+        .btn-danger:hover {
+            background: #fecaca;
+        }
+        .btn-success {
+            background: #dcfce7;
+            color: #166534;
+        }
+        .btn-success:hover {
+            background: #bbf7d0;
+        }
+        .btn-outline {
+            background: #fff;
+            color: var(--text);
+            border: 1px solid var(--border);
+        }
+        .btn-outline:hover {
+            background: #f8fafc;
+        }
+        .btn-sm {
+            padding: 6px 12px;
+            font-size: 12px;
+        }
+        .btn-icon {
+            padding: 8px;
+            font-size: 16px;
+        }
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+        .stat-card {
+            background: var(--card);
+            border-radius: var(--radius);
+            border: 1px solid var(--border);
+            box-shadow: var(--shadow);
+            padding: 20px;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .stat-card:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-lg);
+        }
+        .stat-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 12px;
+        }
+        .stat-label {
+            color: var(--text-secondary);
+            font-size: 13px;
+            font-weight: 500;
+        }
+        .stat-icon {
+            width: 36px;
+            height: 36px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+        }
+        .stat-value {
+            font-size: 24px;
+            font-weight: 800;
+            margin-bottom: 6px;
+        }
+        .stat-meta {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+        .badge {
+            padding: 3px 10px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+        }
+        .badge-green {
+            background: #dcfce7;
+            color: #166534;
+        }
+        .badge-red {
+            background: #fee2e2;
+            color: #991b1b;
+        }
+        .badge-blue {
+            background: #dbeafe;
+            color: #1e40af;
+        }
+        .badge-purple {
+            background: #f3e8ff;
+            color: #6b21a8;
+        }
+        .badge-gray {
+            color: #94a3b8;
+            font-size: 12px;
+            font-weight: 500;
+        }
+        .hero {
+            background: linear-gradient(135deg, #f0f4ff 0%, #e0f2fe 50%, #f0fdf4 100%);
+            border-radius: var(--radius);
+            padding: 32px;
+            margin-bottom: 24px;
+        }
+        .hero-date {
+            color: #0d9488;
+            font-weight: 600;
+            font-size: 13px;
+            margin-bottom: 8px;
+        }
+        .hero h2 {
+            font-size: 26px;
+            font-weight: 800;
+            margin-bottom: 10px;
+        }
+        .hero p {
+            color: var(--text-secondary);
+            font-size: 15px;
+            max-width: 600px;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+        .hero-actions {
             display: flex;
             gap: 10px;
             flex-wrap: wrap;
-            margin-top: 20px;
         }
-        
-        .badge-status {
-            font-size: 0.9rem;
-            padding: 5px 10px;
-            border-radius: 20px;
+        .form-group {
+            margin-bottom: 16px;
+        }
+        .form-group label {
+            display: block;
+            font-size: 13px;
+            font-weight: 600;
+            color: #374151;
+            margin-bottom: 6px;
+        }
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 11px 14px;
+            border: 1.5px solid var(--border);
+            border-radius: 10px;
+            font-size: 14px;
+            outline: none;
+            transition: all 0.2s;
+            font-family: inherit;
+        }
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.12);
+        }
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 14px;
+        }
+        .form-row-3 {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 14px;
+        }
+        .form-hint {
+            font-size: 12px;
+            color: #94a3b8;
+            margin-top: 4px;
+        }
+        .produk-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+        }
+        .produk-grid label {
+            cursor: pointer;
+        }
+        .produk-grid input {
+            display: none;
+        }
+        .produk-card {
+            padding: 14px 8px;
+            border: 2px solid var(--border);
+            border-radius: 12px;
+            text-align: center;
+            font-size: 13px;
+            font-weight: 600;
+            color: #475569;
+            transition: all 0.2s;
+            background: #fff;
+        }
+        .produk-grid input:checked+.produk-card {
+            border-color: var(--primary);
+            background: #f0f4ff;
+            color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        .data-table th {
+            text-align: left;
+            padding: 12px 14px;
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            color: #94a3b8;
+            letter-spacing: 0.5px;
+            border-bottom: 1px solid var(--border);
+        }
+        .data-table td {
+            padding: 12px 14px;
+            font-size: 13px;
+            border-bottom: 1px solid #f1f5f9;
+            vertical-align: middle;
+        }
+        .data-table tr:hover td {
+            background: #f8fafc;
+        }
+        .data-table .actions {
+            display: flex;
+            gap: 4px;
+        }
+        .tx-list {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+        .tx-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 14px 16px;
+            background: #f8fafc;
+            border-radius: 12px;
+            border: 1px solid #f1f5f9;
+            transition: background 0.2s;
+        }
+        .tx-item:hover {
+            background: #f1f5f9;
+        }
+        .tx-left {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            flex: 1;
+            min-width: 0;
+        }
+        .tx-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            flex-shrink: 0;
+        }
+        .tx-info {
+            min-width: 0;
+        }
+        .tx-title {
+            font-weight: 600;
+            font-size: 14px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        .tx-sub {
+            font-size: 12px;
+            color: var(--text-secondary);
+        }
+        .tx-right {
+            text-align: right;
+            margin-right: 10px;
+            flex-shrink: 0;
+        }
+        .tx-amount {
+            font-weight: 700;
+            font-size: 15px;
+        }
+        .tx-profit {
+            font-size: 12px;
             font-weight: 500;
         }
-        
-        .status-profit { background-color: rgba(76, 201, 240, 0.2); color: #4cc9f0; }
-        .status-normal { background-color: rgba(255, 158, 0, 0.2); color: #ff9e00; }
-        .status-loss { background-color: rgba(247, 37, 133, 0.2); color: #f72585; }
-        
-        /* Notifikasi Ekspor/Import */
-        .export-notification {
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            background: white;
-            padding: 30px 50px;
-            border-radius: 15px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-            z-index: 1000;
-            text-align: center;
-            display: none;
-            animation: popIn 0.5s ease-out;
-            border: 3px solid #4ade80;
-            max-width: 90%;
-            width: 400px;
+        .tx-profit.positive {
+            color: var(--success);
         }
-        
-        @keyframes popIn {
-            0% { transform: translate(-50%, -50%) scale(0.8); opacity: 0; }
-            70% { transform: translate(-50%, -50%) scale(1.1); opacity: 1; }
-            100% { transform: translate(-50%, -50%) scale(1); opacity: 1; }
+        .tx-profit.negative {
+            color: var(--danger);
         }
-        
-        .notification-icon {
-            font-size: 60px;
+        .date-group {
             margin-bottom: 20px;
-            animation: bounce 1s infinite alternate;
         }
-        
-        @keyframes bounce {
-            0% { transform: translateY(0); }
-            100% { transform: translateY(-15px); }
-        }
-        
-        .notification-title {
-            font-size: 24px;
+        .date-label {
+            font-size: 12px;
             font-weight: 700;
+            color: var(--text-secondary);
             margin-bottom: 10px;
-            color: #333;
+            padding: 6px 12px;
+            background: #f1f5f9;
+            border-radius: 8px;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
         }
-        
-        .notification-message {
-            font-size: 18px;
-            color: #666;
-            margin-bottom: 25px;
-        }
-        
-        .notification-button {
-            background: #4361ee;
-            color: white;
-            border: none;
-            padding: 10px 25px;
-            border-radius: 50px;
-            font-size: 16px;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-        
-        .notification-button:hover {
-            background: #3f37c9;
-            transform: scale(1.05);
-        }
-        
-        .notification-overlay {
+        .modal-overlay {
             position: fixed;
-            top: 0;
-            left: 0;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.45);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 200;
+            padding: 20px;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.2s;
+        }
+        .modal-overlay.show {
+            opacity: 1;
+            pointer-events: all;
+        }
+        .modal-box {
+            background: #fff;
+            border-radius: 20px;
             width: 100%;
-            height: 100%;
-            background: rgba(0,0,0,0.7);
-            z-index: 999;
-            display: none;
+            max-width: 520px;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.2);
+            transform: scale(0.95);
+            transition: transform 0.2s;
         }
-        
-        /* Input file tersembunyi */
-        #file-input {
-            display: none;
+        .modal-overlay.show .modal-box {
+            transform: scale(1);
         }
-        
-        /* Modal konfirmasi import */
-        .import-modal {
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            background: white;
-            padding: 30px;
-            border-radius: 15px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-            z-index: 1000;
-            width: 400px;
-            max-width: 90%;
-            display: none;
+        .modal-header {
+            padding: 20px 24px;
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
         }
-        
-        .import-modal h3 {
-            margin-top: 0;
-            color: var(--primary);
+        .modal-header h3 {
+            font-size: 17px;
+            font-weight: 700;
         }
-        
-        .import-modal p {
-            margin-bottom: 20px;
+        .modal-close {
+            background: none;
+            border: none;
+            font-size: 22px;
+            color: #94a3b8;
+            cursor: pointer;
+            padding: 4px;
+            border-radius: 8px;
+            transition: background 0.2s;
         }
-        
-        .import-modal-buttons {
+        .modal-close:hover {
+            background: #f1f5f9;
+        }
+        .modal-body {
+            padding: 20px 24px;
+        }
+        .modal-footer {
+            padding: 16px 24px;
+            border-top: 1px solid var(--border);
             display: flex;
             justify-content: flex-end;
             gap: 10px;
         }
-        
-        /* Backup section */
-        .backup-section {
-            background: white;
-            border-radius: 10px;
-            padding: 20px;
-            margin-top: 20px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        .receipt {
+            background: #fff;
+            border: 2px dashed #cbd5e1;
+            border-radius: 12px;
+            padding: 28px;
+            max-width: 380px;
+            margin: 0 auto;
+            font-family: 'Courier New', monospace;
         }
-        
-        .backup-section h3 {
-            margin-top: 0;
-            color: var(--primary);
+        .receipt-header {
+            text-align: center;
+            margin-bottom: 16px;
+            border-bottom: 1px dashed #cbd5e1;
+            padding-bottom: 12px;
         }
-        
-        .backup-buttons {
+        .receipt-header h4 {
+            font-size: 16px;
+            margin-bottom: 4px;
+        }
+        .receipt-header p {
+            font-size: 11px;
+            color: #64748b;
+        }
+        .receipt-row {
             display: flex;
-            gap: 10px;
-            margin-top: 15px;
-            flex-wrap: wrap;
+            justify-content: space-between;
+            font-size: 12px;
+            margin-bottom: 6px;
         }
-        
-        .btn-backup {
+        .receipt-row.total {
+            border-top: 1px dashed #cbd5e1;
+            padding-top: 8px;
+            margin-top: 8px;
+            font-weight: 700;
+            font-size: 14px;
+        }
+        .receipt-footer {
+            text-align: center;
+            margin-top: 16px;
+            font-size: 11px;
+            color: #94a3b8;
+            border-top: 1px dashed #cbd5e1;
+            padding-top: 12px;
+        }
+        .chart-container {
+            background: var(--card);
+            border-radius: var(--radius);
+            border: 1px solid var(--border);
+            box-shadow: var(--shadow);
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+        .chart-container h4 {
+            font-size: 14px;
+            font-weight: 700;
+            margin-bottom: 16px;
+        }
+        .chart-canvas {
+            width: 100%;
+            height: 280px;
+        }
+        .tabs {
+            display: flex;
+            gap: 4px;
+            margin-bottom: 20px;
+            background: #f1f5f9;
+            padding: 4px;
+            border-radius: 10px;
+            width: fit-content;
+        }
+        .tab-btn {
+            padding: 8px 16px;
+            border-radius: 8px;
+            border: none;
+            background: transparent;
+            cursor: pointer;
+            font-size: 13px;
+            font-weight: 600;
+            color: #64748b;
+            transition: all 0.2s;
+        }
+        .tab-btn.active {
+            background: #fff;
+            color: var(--text);
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+        .empty-state {
+            text-align: center;
+            padding: 48px 20px;
+            color: #94a3b8;
+        }
+        .empty-state .icon {
+            font-size: 48px;
+            margin-bottom: 12px;
+        }
+        .empty-state h3 {
+            color: var(--text);
+            margin-bottom: 6px;
+            font-size: 16px;
+        }
+        .empty-state p {
+            font-size: 14px;
+            margin-bottom: 16px;
+        }
+        .toast-container {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 300;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+        .toast {
+            background: #fff;
+            border-radius: 12px;
+            padding: 14px 18px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
             display: flex;
             align-items: center;
-            gap: 8px;
-            padding: 10px 15px;
+            gap: 10px;
+            font-size: 13px;
             font-weight: 500;
-            border-radius: 8px;
+            border-left: 4px solid var(--success);
+            animation: slideIn 0.3s ease;
+            min-width: 280px;
         }
-        
-        .btn-export {
-            background-color: #4ade80;
-            color: white;
-            border: none;
+        .toast.error {
+            border-left-color: var(--danger);
         }
-        
-        .btn-export:hover {
-            background-color: #22c55e;
+        .toast.warning {
+            border-left-color: var(--warning);
         }
-        
-        .btn-import {
-            background-color: #fbbf24;
-            color: white;
-            border: none;
+        @keyframes slideIn {
+            from {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
         }
-        
-        .btn-import:hover {
-            background-color: #f59e0b;
+        @media (max-width: 1024px) {
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            .sidebar {
+                transform: translateX(-100%);
+            }
+            .sidebar.open {
+                transform: translateX(0);
+            }
+            .main-content {
+                margin-left: 0;
+            }
+            .mobile-toggle {
+                display: block;
+            }
+            .overlay {
+                position: fixed;
+                inset: 0;
+                background: rgba(0, 0, 0, 0.3);
+                z-index: 99;
+                display: none;
+            }
+            .overlay.show {
+                display: block;
+            }
         }
-        
-        .btn-excel {
-            background-color: #22c55e;
-            color: white;
-            border: none;
-        }
-        
-        .btn-excel:hover {
-            background-color: #16a34a;
-        }
-        
-        .btn-pdf {
-            background-color: #ef4444;
-            color: white;
-            border: none;
-        }
-        
-        .btn-pdf:hover {
-            background-color: #dc2626;
-        }
-        
-        /* Button container */
-        .button-container {
-            display: flex;
-            gap: 10px;
-            margin-top: 10px;
-            flex-wrap: wrap;
-        }
-        
-        .header-buttons {
-            display: flex;
-            gap: 10px;
+        @media (max-width: 640px) {
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+            .form-row,
+            .form-row-3 {
+                grid-template-columns: 1fr;
+            }
+            .produk-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            .page-container {
+                padding: 16px;
+            }
+            .topbar {
+                padding: 12px 16px;
+            }
+            .hero {
+                padding: 20px;
+            }
+            .hero h2 {
+                font-size: 20px;
+            }
+            .tx-item {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 8px;
+            }
+            .tx-right {
+                text-align: left;
+                margin-right: 0;
+            }
         }
     </style>
 </head>
 <body>
-    <!-- Overlay untuk notifikasi -->
-    <div class="notification-overlay" id="notification-overlay"></div>
-    
-    <!-- Notifikasi Ekspor/Import -->
-    <div class="export-notification" id="export-notification">
-        <div class="notification-icon" id="notification-icon">📊</div>
-        <div class="notification-title" id="notification-title">Sukses!</div>
-        <div class="notification-message" id="notification-message">File Anda berhasil didownload</div>
-        <button class="notification-button" onclick="closeNotification()">Mengerti</button>
-    </div>
-    
-    <!-- Modal konfirmasi import -->
-    <div class="import-modal" id="import-modal">
-        <h3>Konfirmasi Import Data</h3>
-        <p>Anda yakin ingin mengimpor data ini? Data saat ini akan digantikan dengan data dari file.</p>
-        <div class="import-modal-buttons">
-            <button class="btn btn-outline-secondary" onclick="cancelImport()">Batal</button>
-            <button class="btn btn-primary" onclick="confirmImport()">Ya, Import Data</button>
-        </div>
-    </div>
-    
-    <!-- Input file tersembunyi -->
-    <input type="file" id="file-input" accept=".json">
-    
-    <!-- Header -->
-    <div class="header">
-        <div class="container">
-            <div class="d-flex justify-content-between align-items-center flex-wrap">
-                <h1 class="mb-0">📱 Pembukuan Konter Pulsa UMKM</h1>
-                <div class="header-buttons mt-2 mt-md-0">
-                    <button class="btn btn-light me-2" onclick="saveData()">
-                        <i class="fas fa-save me-1"></i> Simpan Data
-                    </button>
-                    <button class="btn btn-warning" onclick="resetData()">
-                        <i class="fas fa-redo me-1"></i> Reset Data
-                    </button>
-                </div>
-            </div>
-            <p class="mb-0 mt-2">Kelola keuangan dan stok voucher dengan pembukuan per bulan</p>
-        </div>
-    </div>
-    
-    <div class="container">
-        <!-- Backup/Restore Section -->
-        <div class="backup-section">
-            <h3><i class="fas fa-database me-2"></i> Backup & Restore Data</h3>
-            <p>Lakukan backup data secara berkala untuk mencegah kehilangan data. Gunakan fitur restore untuk mengembalikan data dari backup.</p>
-            <div class="backup-buttons">
-                <button class="btn btn-backup btn-export" onclick="exportToJSON()">
-                    <i class="fas fa-file-export me-1"></i> Buat Backup
-                </button>
-                <button class="btn btn-backup btn-import" onclick="importData()">
-                    <i class="fas fa-file-import me-1"></i> Restore Backup
-                </button>
-                <button class="btn btn-backup btn-excel" onclick="exportToExcel()">
-                    <i class="fas fa-file-excel me-1"></i> Export Excel
-                </button>
-                <button class="btn btn-backup btn-pdf" onclick="exportToPDF()">
-                    <i class="fas fa-file-pdf me-1"></i> Export PDF
-                </button>
-            </div>
-        </div>
-        
-        <!-- Pemilih Bulan -->
-        <div class="month-selector">
-            <h4 class="mb-0"><i class="fas fa-calendar-alt me-2"></i> Pembukuan Bulan:</h4>
-            <select class="form-select" id="month-select" style="width: 200px;">
-                <!-- Opsi bulan akan diisi oleh JavaScript -->
-            </select>
-            <button class="btn btn-success" onclick="addNewMonth()">
-                <i class="fas fa-plus me-1"></i> Bulan Baru
-            </button>
-            <button class="btn btn-info" onclick="generateClosingStatement()">
-                <i class="fas fa-file-invoice me-1"></i> Closing Statement
-            </button>
-        </div>
-        
-        <!-- Summary Cards -->
-        <div class="row">
-            <div class="col-md-3">
-                <div class="card summary-card income">
-                    <h5><i class="fas fa-money-bill-wave me-2"></i> Total Pemasukan</h5>
-                    <div class="value rupiah" id="total-income">Rp 0</div>
-                </div>
-            </div>
-            <div class="col-md-3">
-                <div class="card summary-card expense">
-                    <h5><i class="fas fa-money-bill me-2"></i> Total Pengeluaran</h5>
-                    <div class="value rupiah" id="total-expense">Rp 0</div>
-                </div>
-            </div>
-            <div class="col-md-3">
-                <div class="card summary-card profit">
-                    <h5><i class="fas fa-chart-line me-2"></i> Total Keuntungan</h5>
-                    <div class="value rupiah" id="total-profit">Rp 0</div>
-                </div>
-            </div>
-            <div class="col-md-3">
-                <div class="card summary-card stock">
-                    <h5><i class="fas fa-boxes me-2"></i> Total Stok Voucher</h5>
-                    <div class="value" id="total-stock">0 item</div>
-                </div>
-            </div>
-        </div>
-        
-        <div class="row">
-            <!-- Left Column -->
-            <div class="col-lg-6">
-                <!-- Input Transaksi -->
-                <div class="card">
-                    <div class="card-header d-flex justify-content-between align-items-center">
-                        <span><i class="fas fa-receipt me-2"></i> Input Transaksi</span>
-                        <div class="form-check form-switch">
-                            <input class="form-check-input" type="checkbox" id="transaction-type" checked>
-                            <label class="form-check-label" for="transaction-type">Penjualan</label>
-                        </div>
-                    </div>
-                    <div class="card-body">
-                        <form id="transaction-form">
-                            <div class="mb-3">
-                                <label class="form-label"><i class="fas fa-tag me-2"></i> Jenis Voucher</label>
-                                <select class="form-select" id="voucher-type" required>
-                                    <option value="">Pilih jenis voucher</option>
-                                    <option value="Pulsa">Pulsa</option>
-                                    <option value="Paket Data">Paket Data</option>
-                                    <option value="Token Listrik">Token Listrik</option>
-                                    <option value="Voucher Game">Voucher Game</option>
-                                    <option value="E-Money">E-Money</option>
-                                    <option value="Lainnya">Lainnya</option>
-                                </select>
-                            </div>
-                            
-                            <div class="mb-3">
-                                <label class="form-label"><i class="fas fa-file-invoice me-2"></i> Nominal/Produk</label>
-                                <input type="text" class="form-control" id="voucher-name" placeholder="Contoh: 50.000, 10GB, FreeFire" required>
-                            </div>
-                            
-                            <div class="row">
-                                <div class="col-md-6 mb-3">
-                                    <label class="form-label"><i class="fas fa-money-bill me-2"></i> Harga Modal (Rp)</label>
-                                    <input type="number" class="form-control" id="cost-price" placeholder="Harga beli" min="0" required>
-                                </div>
-                                <div class="col-md-6 mb-3">
-                                    <label class="form-label"><i class="fas fa-tag me-2"></i> Harga Jual (Rp)</label>
-                                    <input type="number" class="form-control" id="sell-price" placeholder="Harga jual" min="0" required>
-                                </div>
-                            </div>
-                            
-                            <div class="row">
-                                <div class="col-md-6 mb-3">
-                                    <label class="form-label"><i class="fas fa-cubes me-2"></i> Jumlah</label>
-                                    <input type="number" class="form-control" id="quantity" min="1" value="1" required>
-                                </div>
-                                <div class="col-md-6 mb-3">
-                                    <label class="form-label"><i class="fas fa-calendar-day me-2"></i> Tanggal</label>
-                                    <input type="date" class="form-control" id="transaction-date" required>
-                                </div>
-                            </div>
-                            
-                            <div class="mb-3">
-                                <label class="form-label"><i class="fas fa-sticky-note me-2"></i> Keterangan (Opsional)</label>
-                                <textarea class="form-control" id="description" rows="2" placeholder="Catatan tambahan..."></textarea>
-                            </div>
-                            
-                            <button type="submit" class="btn btn-primary w-100">
-                                <i class="fas fa-save me-2"></i> Simpan Transaksi
-                            </button>
-                        </form>
-                    </div>
-                </div>
-                
-                <!-- Grafik Keuangan -->
-                <div class="card">
-                    <div class="card-header"><i class="fas fa-chart-pie me-2"></i> Grafik Keuangan Bulanan</div>
-                    <div class="card-body">
-                        <div class="chart-container">
-                            <canvas id="finance-chart"></canvas>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            
-            <!-- Right Column -->
-            <div class="col-lg-6">
-                <!-- Riwayat Transaksi -->
-                <div class="card">
-                    <div class="card-header d-flex justify-content-between align-items-center">
-                        <span><i class="fas fa-history me-2"></i> Riwayat Transaksi</span>
-                        <div>
-                            <select class="form-select form-select-sm" id="filter-type">
-                                <option value="all">Semua</option>
-                                <option value="income">Pemasukan</option>
-                                <option value="expense">Pengeluaran</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="card-body">
-                        <div class="table-responsive">
-                            <table class="table table-hover">
-                                <thead>
-                                    <tr>
-                                        <th>Tanggal</th>
-                                        <th>Jenis</th>
-                                        <th>Produk</th>
-                                        <th>Jumlah</th>
-                                        <th>Keuntungan</th>
-                                        <th class="action-cell">Aksi</th>
-                                    </tr>
-                                </thead>
-                                <tbody id="transaction-history">
-                                    <!-- Data transaksi akan dimasukkan di sini melalui JavaScript -->
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- Stok Voucher -->
-                <div class="card">
-                    <div class="card-header"><i class="fas fa-box-open me-2"></i> Stok Voucher</div>
-                    <div class="card-body">
-                        <div class="table-responsive">
-                            <table class="table table-hover">
-                                <thead>
-                                    <tr>
-                                        <th>Jenis</th>
-                                        <th>Produk</th>
-                                        <th>Stok</th>
-                                        <th>Harga Modal</th>
-                                        <th>Harga Jual</th>
-                                        <th>Keuntungan/Unit</th>
-                                    </tr>
-                                </thead>
-                                <tbody id="stock-list">
-                                    <!-- Data stok akan dimasukkan di sini melalui JavaScript -->
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        
-        <!-- Closing Statement -->
-        <div id="closing-statement-container" class="closing-statement" style="display: none;">
-            <h3>📑 Closing Statement <span id="closing-month"></span> <span id="status-emoji" class="emoji-status"></span></h3>
-            <div class="row">
-                <div class="col-md-4">
-                    <div class="card">
-                        <div class="card-body">
-                            <h5><i class="fas fa-chart-bar me-2"></i> Ringkasan Keuangan</h5>
-                            <p><strong>Pemasukan:</strong> <span id="cs-income" class="rupiah"></span></p>
-                            <p><strong>Pengeluaran:</strong> <span id="cs-expense" class="rupiah"></span></p>
-                            <p><strong>Keuntungan:</strong> <span id="cs-profit" class="rupiah"></span></p>
-                            <p><strong>Status:</strong> <span id="cs-status" class="badge-status"></span></p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="card">
-                        <div class="card-body">
-                            <h5><i class="fas fa-boxes me-2"></i> Stok Akhir Bulan</h5>
-                            <p><strong>Total Stok:</strong> <span id="cs-total-stock"></span> item</p>
-                            <p><strong>Nilai Stok:</strong> <span id="cs-stock-value" class="rupiah"></span></p>
-                            <p><strong>Produk Terlaris:</strong> <span id="cs-best-seller"></span></p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <div class="card">
-                        <div class="card-body">
-                            <h5><i class="fas fa-info-circle me-2"></i> Catatan</h5>
-                            <p>Stok akhir bulan tidak dibawa ke bulan berikutnya. Pembukuan bulan baru dimulai dengan stok kosong.</p>
-                            <button class="btn btn-primary mt-2" onclick="closeCurrentMonth()">
-                                <i class="fas fa-door-closed me-2"></i> Tutup Bulan Ini
-                            </button>
-                        </div>
-                    </div>
-                </div>
+    <div class="toast-container" id="toast-container"></div>
+
+    <!-- LOGIN -->
+    <div id="login-page" class="login-page">
+        <div class="login-box">
+            <div class="logo">KP</div>
+            <h2>Konter Pulsa Pro</h2>
+            <p>Masuk untuk mengelola konter Anda</p>
+            <form id="login-form" onsubmit="app.login(event)">
+                <div class="form-group"><label>Username</label><input type="text" name="username" placeholder="Masukkan username" required></div>
+                <div class="form-group"><label>Password</label><input type="password" name="password" placeholder="Masukkan password" required></div>
+                <button type="submit">Masuk</button>
+            </form>
+            <div class="login-hint">
+                <strong>Akun Demo:</strong><br>
+                👤 Admin: <code>admin</code> / <code>admin123</code><br>
+                🧑‍💼 Kasir 1: <code>kasir1</code> / <code>kasir123</code><br>
+                🧑‍💼 Kasir 2: <code>kasir2</code> / <code>kasir123</code>
             </div>
         </div>
     </div>
-    
-    <div class="footer">
-        <div class="container">
-            <p class="mb-0">© 2025 Pembukuan Konter Pulsa Sederhana Online | Sistem Pembukuan Per Bulan </p>
-            <p class="mb-0">© Abdul Gafur </p>
+
+    <!-- APP -->
+    <div id="app-layout" class="app-layout" style="display:none;">
+        <div class="overlay" id="sidebar-overlay" onclick="app.toggleSidebar()"></div>
+
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <div class="logo">KP</div>
+                <div class="brand"><h1>Konter Pulsa</h1><p>Pencatatan & Laporan</p></div>
+            </div>
+            <nav class="sidebar-nav" id="sidebar-nav"></nav>
+            <div class="sidebar-footer">
+                <div class="user-card">
+                    <div class="user-avatar" id="user-avatar">A</div>
+                    <div class="user-info"><div class="name" id="user-name">Admin</div><div class="role" id="user-role">Administrator</div></div>
+                    <button class="logout-btn" onclick="app.logout()" title="Keluar">🚪</button>
+                </div>
+            </div>
+        </aside>
+
+        <main class="main-content">
+            <div class="topbar">
+                <div style="display:flex;align-items:center;gap:12px;">
+                    <button class="mobile-toggle" onclick="app.toggleSidebar()">☰</button>
+                    <h2 id="page-title">Dashboard</h2>
+                </div>
+                <div class="topbar-right">
+                    <div class="saldo-badge" id="saldo-badge">💰 Saldo: Rp 0</div>
+                </div>
+            </div>
+            <div id="page-content"></div>
+        </main>
+    </div>
+
+    <!-- MODAL -->
+    <div class="modal-overlay" id="modal-overlay">
+        <div class="modal-box" id="modal-box">
+            <div class="modal-header"><h3 id="modal-title">Modal</h3><button class="modal-close" onclick="app.closeModal()">&times;</button></div>
+            <div class="modal-body" id="modal-body"></div>
+            <div class="modal-footer" id="modal-footer"></div>
         </div>
     </div>
-    
+
     <script>
-        // =====================
-        // DATA STRUCTURE
-        // =====================
-        let appData = {
-            currentMonth: "",
-            months: {}
-        };
-        
-        // Variabel untuk menyimpan data yang akan diimport
-        let importFileData = null;
-        
-        // Inisialisasi data
-        function initAppData() {
-            const savedData = localStorage.getItem('pembukuan_data');
-            if (savedData) {
-                appData = JSON.parse(savedData);
-                
-                // Jika tidak ada bulan yang aktif, buat bulan sekarang
-                if (!appData.currentMonth) {
-                    appData.currentMonth = getCurrentMonthYear();
-                }
-                
-                // Jika bulan sekarang belum ada, tambahkan
-                if (!appData.months[appData.currentMonth]) {
-                    appData.months[appData.currentMonth] = {
-                        transactions: [],
-                        stock: {}
-                    };
-                }
-            } else {
-                // Data baru
-                const currentMonth = getCurrentMonthYear();
-                appData = {
-                    currentMonth: currentMonth,
-                    months: {
-                        [currentMonth]: {
-                            transactions: [],
-                            stock: {}
-                        }
+        (function() {
+            const DB = {
+                get(k, def) { try { const v = localStorage.getItem("kp_" + k); return v ? JSON.parse(v) : def; } catch (e) { return def; } },
+                set(k, v) { localStorage.setItem("kp_" + k, JSON.stringify(v)); },
+                init() {
+                    if (!localStorage.getItem("kp_initialized")) {
+                        this.set("users", [
+                            { id: "u1", username: "admin", password: "admin123", name: "Administrator", role: "admin" },
+                            { id: "u2", username: "kasir1", password: "kasir123", name: "Kasir Satu", role: "kasir" },
+                            { id: "u3", username: "kasir2", password: "kasir123", name: "Kasir Dua", role: "kasir" }
+                        ]);
+                        this.set("products", [
+                            { id: "p1", name: "Pulsa", type: "pulsa", icon: "📱", bg: "#fef2f2", modalPrice: 0 },
+                            { id: "p2", name: "Paket Data", type: "paket_data", icon: "🌐", bg: "#f0f9ff", modalPrice: 0 },
+                            { id: "p3", name: "Token Listrik", type: "token_listrik", icon: "⚡", bg: "#fffbeb",
+                            modalPrice: 0 },
+                            { id: "p4", name: "Voucher Game", type: "voucher_game", icon: "🎮", bg: "#f0fdf4",
+                            modalPrice: 0 },
+                            { id: "p5", name: "E-Money", type: "e_money", icon: "💳", bg: "#faf5ff", modalPrice: 0 },
+                            { id: "p6", name: "Lainnya", type: "lainnya", icon: "📦", bg: "#f8fafc", modalPrice: 0 }
+                        ]);
+                        this.set("operators", [
+                            { id: "op1", name: "Telkomsel" }, { id: "op2", name: "XL" }, { id: "op3", name: "Indosat" },
+                            { id: "op4", name: "Tri" }, { id: "op5", name: "Smartfren" }, { id: "op6", name: "PLN" },
+                            { id: "op7", name: "Lainnya" }
+                        ]);
+                        this.set("paymentMethods", [
+                            { id: "pm1", name: "Tunai" }, { id: "pm2", name: "Transfer Bank" }, { id: "pm3",
+                                name: "QRIS" },
+                            { id: "pm4", name: "ShopeePay" }, { id: "pm5", name: "GoPay" }, { id: "pm6", name: "Dana" },
+                            { id: "pm7", name: "OVO" }, { id: "pm8", name: "Lainnya" }
+                        ]);
+                        this.set("transactions", []);
+                        this.set("stocks", []);
+                        this.set("subscriptions", []);
+                        this.set("initialBalance", 0);
+                        this.set("initialized", true);
                     }
+                }
+            };
+            DB.init();
+
+            let currentUser = null,
+                currentPage = "dashboard",
+                sidebarOpen = false;
+
+            function uid() { return Date.now().toString(36) + Math.random().toString(36).substr(2, 6); }
+
+            function rp(n) { return "Rp " + (n || 0).toLocaleString("id-ID"); }
+
+            function fmtDate(d) { const x = new Date(d); return x.toLocaleDateString("id-ID", { day: "numeric",
+                    month: "long", year: "numeric" }); }
+
+            function fmtDateShort(d) { const x = new Date(d); return x.toLocaleDateString("id-ID", { day: "numeric",
+                    month: "short" }); }
+
+            function nowISO() { return new Date().toISOString(); }
+
+            function isToday(d) { const n = new Date(); const x = new Date(d); return n.toDateString() === x
+                .toDateString(); }
+
+            function isThisWeek(d) { const n = new Date(); const x = new Date(d); const s = new Date(n);
+                s.setDate(n.getDate() - n.getDay());
+                s.setHours(0, 0, 0, 0); return x >= s; }
+
+            function isThisMonth(d) { const n = new Date(); const x = new Date(d); return x.getMonth() === n.getMonth() &&
+                    x.getFullYear() === n.getFullYear(); }
+
+            function toast(msg, type) {
+                const c = document.getElementById("toast-container");
+                const t = document.createElement("div");
+                t.className = "toast " + (type || "");
+                const icon = type === "error" ? "❌" : type === "warning" ? "⚠️" : "✅";
+                t.innerHTML = icon + " <span>" + msg + "</span>";
+                c.appendChild(t);
+                setTimeout(() => { t.style.opacity = "0";
+                    t.style.transform = "translateX(100%)";
+                    setTimeout(() => t.remove(), 300); }, 3000);
+            }
+
+            const NAV_ADMIN = [
+                { section: "Utama", items: [
+                        { id: "dashboard", label: "Dashboard", icon: "📊" },
+                        { id: "transaksi", label: "Transaksi", icon: "📝" },
+                        { id: "laporan", label: "Laporan", icon: "📋" },
+                        { id: "analisis", label: "Analisis", icon: "📈" }
+                    ] },
+                { section: "Master Data", items: [
+                        { id: "produk", label: "Produk", icon: "📦" },
+                        { id: "operator", label: "Operator", icon: "🏢" },
+                        { id: "metode-bayar", label: "Metode Bayar", icon: "💳" }
+                    ] },
+                { section: "Inventori", items: [
+                        { id: "stok", label: "Stok Voucher & Kartu", icon: "🎫" },
+                        { id: "subscription", label: "Subscription", icon: "📺" }
+                    ] },
+                { section: "Pengaturan", items: [
+                        { id: "pengaturan", label: "Pengaturan", icon: "⚙️" }
+                    ] }
+            ];
+            const NAV_KASIR = [
+                { section: "Utama", items: [
+                        { id: "dashboard", label: "Dashboard", icon: "📊" },
+                        { id: "transaksi", label: "Transaksi", icon: "📝" },
+                        { id: "laporan", label: "Laporan", icon: "📋" }
+                    ] }
+            ];
+
+            function renderSidebar() {
+                const nav = document.getElementById("sidebar-nav");
+                const menus = currentUser.role === "admin" ? NAV_ADMIN : NAV_KASIR;
+                nav.innerHTML = menus.map(sec => `
+              <div class="nav-section">
+                <div class="nav-section-title">${sec.section}</div>
+                ${sec.items.map(item => `
+                  <button class="nav-item ${currentPage === item.id ? "active" : ""}" onclick="app.setPage('${item.id}')">
+                    <span class="icon">${item.icon}</span><span>${item.label}</span>
+                  </button>
+                `).join("")}
+              </div>
+            `).join("");
+                document.getElementById("user-name").textContent = currentUser.name;
+                document.getElementById("user-role").textContent = currentUser.role === "admin" ? "Administrator" :
+                "Kasir";
+                document.getElementById("user-avatar").textContent = currentUser.name.charAt(0).toUpperCase();
+            }
+
+            function getStats() {
+                const tx = DB.get("transactions", []);
+                const today = tx.filter(t => isToday(t.date));
+                const week = tx.filter(t => isThisWeek(t.date));
+                const month = tx.filter(t => isThisMonth(t.date));
+                const balance = DB.get("initialBalance", 0);
+                const stocks = DB.get("stocks", []);
+                const subs = DB.get("subscriptions", []);
+                const stockCost = stocks.reduce((s, i) => s + (i.buyPrice * i.quantity), 0);
+                const subCost = subs.reduce((s, i) => s + (i.buyPrice || 0), 0);
+                return {
+                    balance,
+                    todayIncome: today.reduce((s, t) => s + (t.sellPrice || 0), 0),
+                    todayCost: today.reduce((s, t) => s + (t.modalPrice || 0), 0),
+                    todayCount: today.length,
+                    weekIncome: week.reduce((s, t) => s + (t.sellPrice || 0), 0),
+                    weekCount: week.length,
+                    monthIncome: month.reduce((s, t) => s + (t.sellPrice || 0), 0),
+                    monthCost: month.reduce((s, t) => s + (t.modalPrice || 0), 0),
+                    totalIncome: tx.reduce((s, t) => s + (t.sellPrice || 0), 0),
+                    totalCost: tx.reduce((s, t) => s + (t.modalPrice || 0), 0) + stockCost + subCost,
+                    stockCost,
+                    subCost
                 };
-                saveData();
             }
-            
-            // Perbarui dropdown bulan
-            updateMonthSelector();
-        }
-        
-        // =====================
-        // UTILITY FUNCTIONS
-        // =====================
-        // Dapatkan bulan dan tahun sekarang (format: YYYY-MM)
-        function getCurrentMonthYear() {
-            const now = new Date();
-            return `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}`;
-        }
-        
-        // Format angka ke Rupiah
-        function formatRupiah(angka) {
-            return new Intl.NumberFormat('id-ID', {
-                style: 'currency',
-                currency: 'IDR',
-                minimumFractionDigits: 0
-            }).format(angka);
-        }
-        
-        // Format tanggal
-        function formatDate(dateString) {
-            const options = { day: '2-digit', month: '2-digit', year: 'numeric' };
-            return new Date(dateString).toLocaleDateString('id-ID', options);
-        }
-        
-        // Format nama bulan
-        function formatMonthName(monthYear) {
-            const [year, month] = monthYear.split('-');
-            const monthNames = [
-                'Januari', 'Februari', 'Maret', 'April', 'Mei', 'Juni',
-                'Juli', 'Agustus', 'September', 'Oktober', 'November', 'Desember'
-            ];
-            return `${monthNames[parseInt(month) - 1]} ${year}`;
-        }
-        
-        // Tampilkan notifikasi
-        function showNotification(type, message) {
-            const notification = document.getElementById('export-notification');
-            const overlay = document.getElementById('notification-overlay');
-            const icon = document.getElementById('notification-icon');
-            const title = document.getElementById('notification-title');
-            const msg = document.getElementById('notification-message');
-            
-            // Set konten notifikasi berdasarkan jenis
-            if (type === 'export') {
-                icon.textContent = '📊';
-                title.textContent = 'Backup Berhasil!';
-                msg.textContent = message || 'Data berhasil diekspor ke file.';
-            } else if (type === 'import') {
-                icon.textContent = '📥';
-                title.textContent = 'Restore Berhasil!';
-                msg.textContent = message || 'Data berhasil diimpor dari file.';
-            } else {
-                icon.textContent = '✅';
-                title.textContent = 'Sukses!';
-                msg.textContent = message || 'Operasi berhasil dilakukan.';
+
+            function renderTxItem(t) {
+                const products = DB.get("products", []);
+                const p = products.find(x => x.id === t.productId) || { name: t.productName || "Produk", icon: "📦",
+                    bg: "#f8fafc" };
+                const profit = (t.sellPrice || 0) - (t.modalPrice || 0);
+                return `
+              <div class="tx-item">
+                <div class="tx-left">
+                  <div class="tx-icon" style="background:${p.bg || "#f8fafc"}">${p.icon || "📦"}</div>
+                  <div class="tx-info">
+                    <div class="tx-title">${t.note || p.name} ${t.source ? "(" + t.source + ")" : ""}</div>
+                    <div class="tx-sub">${t.customerNumber || "-"}${t.customerName ? " • " + t.customerName : ""} • ${fmtDateShort(t.date)}</div>
+                  </div>
+                </div>
+                <div class="tx-right">
+                  <div class="tx-amount">${rp(t.sellPrice)}</div>
+                  <div class="tx-profit ${profit >= 0 ? "positive" : "negative"}">${profit >= 0 ? "+" : ""}${rp(profit)}</div>
+                </div>
+                ${currentUser.role === "admin" ? `<button class="btn btn-sm btn-danger" onclick="app.hapusTransaksi('${t.id}')" title="Hapus">🗑️</button>` : ""}
+              </div>
+            `;
             }
-            
-            // Tampilkan notifikasi dan overlay
-            notification.style.display = 'block';
-            overlay.style.display = 'block';
-            
-            // Otomatis tutup setelah 5 detik
-            setTimeout(closeNotification, 5000);
-        }
-        
-        // Tutup notifikasi
-        function closeNotification() {
-            document.getElementById('export-notification').style.display = 'none';
-            document.getElementById('notification-overlay').style.display = 'none';
-        }
-        
-        // Tampilkan modal import
-        function showImportModal() {
-            document.getElementById('import-modal').style.display = 'block';
-            document.getElementById('notification-overlay').style.display = 'block';
-        }
-        
-        // Tutup modal import
-        function closeImportModal() {
-            document.getElementById('import-modal').style.display = 'none';
-            document.getElementById('notification-overlay').style.display = 'none';
-        }
-        
-        // Batal import
-        function cancelImport() {
-            closeImportModal();
-            importFileData = null;
-        }
-        
-        // =====================
-        // DATA OPERATIONS
-        // =====================
-        // Simpan data ke localStorage
-        function saveData() {
-            localStorage.setItem('pembukuan_data', JSON.stringify(appData));
-            showNotification('success', 'Data berhasil disimpan di browser!');
-        }
-        
-        // Reset data
-        function resetData() {
-            if (confirm('Apakah Anda yakin ingin mereset semua data? Data yang dihapus tidak dapat dikembalikan.')) {
-                localStorage.removeItem('pembukuan_data');
-                initAppData();
-                updateUI();
-                showNotification('success', 'Data berhasil direset ke keadaan awal!');
+
+            function pageDashboard() {
+                const s = getStats();
+                const tx = DB.get("transactions", []);
+                const recent = tx.slice(0, 5);
+                return `
+              <div class="page-container">
+                <div class="hero">
+                  <div class="hero-date">${fmtDate(new Date())}</div>
+                  <h2>Selamat datang, ${currentUser.name}</h2>
+                  <p>Kelola semua penjualan pulsa, paket data, token listrik, voucher, dan subscription. Data dihitung otomatis per hari, minggu, dan bulan.</p>
+                  <div class="hero-actions">
+                    <button class="btn btn-primary" onclick="app.setPage('transaksi')">📝 Catat Transaksi</button>
+                    ${currentUser.role === "admin" ? `<button class="btn btn-secondary" onclick="app.setPage('analisis')">📈 Lihat Analisis</button>` : ""}
+                  </div>
+                </div>
+                <div class="stats-grid">
+                  <div class="stat-card">
+                    <div class="stat-header"><span class="stat-label">Pendapatan Hari Ini</span><div class="stat-icon" style="background:#fef2f2">📱</div></div>
+                    <div class="stat-value">${rp(s.todayIncome)}</div>
+                    <div class="stat-meta"><span class="badge badge-green">${s.todayCount} transaksi</span></div>
+                  </div>
+                  <div class="stat-card">
+                    <div class="stat-header"><span class="stat-label">Pendapatan Minggu Ini</span><div class="stat-icon" style="background:#f0f9ff">📅</div></div>
+                    <div class="stat-value">${rp(s.weekIncome)}</div>
+                    <div class="stat-meta"><span class="badge badge-blue">${s.weekCount} transaksi</span></div>
+                  </div>
+                  <div class="stat-card">
+                    <div class="stat-header"><span class="stat-label">Pendapatan Bulan Ini</span><div class="stat-icon" style="background:#fffbeb">📊</div></div>
+                    <div class="stat-value">${rp(s.monthIncome)}</div>
+                    <div class="stat-meta"><span class="badge badge-purple">Omzet bulanan</span></div>
+                  </div>
+                  <div class="stat-card">
+                    <div class="stat-header"><span class="stat-label">Laba Bulan Ini</span><div class="stat-icon" style="background:#f0fdf4">💰</div></div>
+                    <div class="stat-value" style="color:${s.monthIncome - s.monthCost >= 0 ? "#166534" : "#991b1b"}">${rp(s.monthIncome - s.monthCost)}</div>
+                    <div class="stat-meta"><span class="badge badge-gray">Margin: ${s.monthIncome > 0 ? (((s.monthIncome - s.monthCost) / s.monthIncome) * 100).toFixed(1) : 0}%</span></div>
+                  </div>
+                </div>
+                ${recent.length > 0 ? `
+                <div class="card">
+                  <div class="card-header"><h3>Transaksi Terbaru</h3><button class="btn btn-sm btn-secondary" onclick="app.setPage('laporan')">Lihat Semua</button></div>
+                  <div class="tx-list">${recent.map(t => renderTxItem(t)).join("")}</div>
+                </div>` : `
+                <div class="empty-state">
+                  <div class="icon">📝</div><h3>Belum ada transaksi</h3><p>Mulai catat transaksi pertama Anda</p>
+                  <button class="btn btn-primary" onclick="app.setPage('transaksi')">Catat Transaksi</button>
+                </div>`}
+              </div>`;
             }
-        }
-        
-        // Tambah bulan baru
-        function addNewMonth() {
-            const newMonth = prompt("Masukkan bulan dan tahun baru (Format: YYYY-MM, contoh: 2025-07):");
-            if (newMonth && /^\d{4}-\d{2}$/.test(newMonth)) {
-                if (!appData.months[newMonth]) {
-                    appData.months[newMonth] = {
-                        transactions: [],
-                        stock: {}
-                    };
-                    appData.currentMonth = newMonth;
-                    saveData();
-                    updateMonthSelector();
-                    updateUI();
-                    showNotification('success', `Bulan ${formatMonthName(newMonth)} berhasil ditambahkan!`);
-                } else {
-                    alert("Bulan tersebut sudah ada dalam pembukuan.");
+
+            function pageTransaksi() {
+                const products = DB.get("products", []);
+                const operators = DB.get("operators", []);
+                const methods = DB.get("paymentMethods", []);
+                const isAdmin = currentUser.role === "admin";
+                return `
+              <div class="page-container">
+                <div style="max-width:720px;margin:0 auto;">
+                  <div class="card">
+                    <div class="card-header"><h3>📝 Catat Transaksi Baru</h3></div>
+                    <form id="form-transaksi" onsubmit="app.submitTransaksi(event)">
+                      <div class="form-group">
+                        <label>Jenis Produk</label>
+                        <div class="produk-grid">
+                          ${products.map((p, i) => `
+                            <label>
+                              <input type="radio" name="productId" value="${p.id}" ${i===0 ? "checked" : ""} onchange="app.onProductChange('${p.id}')">
+                              <div class="produk-card">${p.icon} ${p.name}</div>
+                            </label>
+                          `).join("")}
+                        </div>
+                      </div>
+                      <div class="form-row">
+                        <div class="form-group"><label>Operator</label><select name="operatorId">${operators.map(op => `<option value="${op.id}">${op.name}</option>`).join("")}</select></div>
+                        <div class="form-group"><label>Metode Pembayaran</label><select name="paymentMethodId">${methods.map(m => `<option value="${m.id}">${m.name}</option>`).join("")}</select></div>
+                      </div>
+                      <div class="form-row">
+                        <div class="form-group"><label>Nomor Tujuan / ID Pelanggan</label><input type="text" name="customerNumber" placeholder="08xxxxxxxxxx" required></div>
+                        <div class="form-group"><label>Nama Pelanggan (opsional)</label><input type="text" name="customerName" placeholder="Nama pelanggan"></div>
+                      </div>
+                      <div class="form-row">
+                        <div class="form-group">
+                          <label>Harga Modal (Rp) ${!isAdmin ? '<span style="color:#94a3b8;font-weight:400">— diatur admin</span>' : ""}</label>
+                          <input type="number" name="modalPrice" id="input-modal" placeholder="0" min="0" ${!isAdmin ? 'readonly style="background:#f1f5f9"' : ""}>
+                          ${!isAdmin ? '<div class="form-hint">Harga modal otomatis dari produk yang dipilih</div>' : ""}
+                        </div>
+                        <div class="form-group"><label>Harga Jual (Rp)</label><input type="number" name="sellPrice" placeholder="0" required min="0"></div>
+                      </div>
+                      <div class="form-group">
+                        <label>Sumber Transaksi</label>
+                        <select name="source">
+                          <option value="Langsung">Langsung di Konter</option>
+                          <option value="Shopee">Shopee</option>
+                          <option value="Tokopedia">Tokopedia</option>
+                          <option value="Transfer">Transfer Bank / E-Wallet</option>
+                          <option value="Aplikasi Lain">Aplikasi Lain</option>
+                        </select>
+                      </div>
+                      <div class="form-group"><label>Catatan / Detail Produk</label><input type="text" name="note" placeholder="Contoh: Pulsa 10k Telkomsel"></div>
+                      <div class="form-actions" style="display:flex;gap:10px;margin-top:8px;">
+                        <button type="submit" class="btn btn-primary" style="flex:1">💾 Simpan Transaksi</button>
+                        <button type="button" class="btn btn-secondary" onclick="app.setPage('dashboard')">Batal</button>
+                      </div>
+                    </form>
+                  </div>
+                </div>
+              </div>`;
+            }
+
+            function pageLaporan() {
+                const tx = DB.get("transactions", []);
+                const sorted = [...tx].sort((a, b) => new Date(b.date) - new Date(a.date));
+                const grouped = {};
+                sorted.forEach(t => { const d = fmtDate(t.date); if (!grouped[d]) grouped[d] = [];
+                    grouped[d].push(t); });
+                const s = getStats();
+                return `
+              <div class="page-container">
+                <div class="stats-grid" style="grid-template-columns:repeat(4,1fr);margin-bottom:20px;">
+                  <div class="stat-card"><div class="stat-label">Total Transaksi</div><div class="stat-value" style="font-size:22px">${tx.length}</div></div>
+                  <div class="stat-card"><div class="stat-label">Omzet Total</div><div class="stat-value" style="font-size:20px">${rp(s.totalIncome)}</div></div>
+                  <div class="stat-card"><div class="stat-label">Modal Total</div><div class="stat-value" style="font-size:20px">${rp(s.totalCost)}</div></div>
+                  <div class="stat-card"><div class="stat-label">Laba Total</div><div class="stat-value" style="font-size:20px;color:${s.totalIncome - s.totalCost >= 0 ? "#166534" : "#991b1b"}">${rp(s.totalIncome - s.totalCost)}</div></div>
+                </div>
+                <div class="card">
+                  <div class="card-header">
+                    <h3>📋 Riwayat Transaksi</h3>
+                    ${tx.length > 0 && currentUser.role === "admin" ? `<button class="btn btn-sm btn-danger" onclick="app.hapusSemuaTx()">Hapus Semua</button>` : ""}
+                  </div>
+                  ${tx.length === 0 ? `
+                    <div class="empty-state"><div class="icon">📭</div><h3>Belum ada transaksi</h3><p>Data transaksi akan muncul di sini</p></div>
+                  ` : Object.entries(grouped).map(([date, items]) => {
+                    const dayTotal = items.reduce((s, t) => s + (t.sellPrice || 0), 0);
+                    const dayProfit = items.reduce((s, t) => s + ((t.sellPrice || 0) - (t.modalPrice || 0)), 0);
+                    return `
+                    <div class="date-group">
+                      <div class="date-label">${date} &nbsp;•&nbsp; ${rp(dayTotal)} &nbsp;•&nbsp; Laba ${rp(dayProfit)}</div>
+                      <div class="tx-list">${items.map(t => renderTxItem(t)).join("")}</div>
+                    </div>`;
+                  }).join("")}
+                </div>
+              </div>`;
+            }
+
+            function pageAnalisis() {
+                const tx = DB.get("transactions", []);
+                if (tx.length === 0) {
+                    return `<div class="page-container"><div class="empty-state"><div class="icon">📉</div><h3>Belum cukup data</h3><p>Minimal lakukan beberapa transaksi untuk melihat analisis</p></div></div>`;
                 }
-            } else {
-                alert("Format bulan tidak valid. Gunakan format YYYY-MM (contoh: 2025-07)");
+                return `
+              <div class="page-container">
+                <div class="chart-container"><h4>📈 Grafik Transaksi per Hari (30 Hari Terakhir)</h4><canvas id="chart-harian" class="chart-canvas"></canvas></div>
+                <div class="chart-container"><h4>📊 Grafik Transaksi per Hari dalam Seminggu</h4><canvas id="chart-mingguan" class="chart-canvas"></canvas></div>
+                <div class="chart-container"><h4>🥧 Distribusi Produk Terjual</h4><canvas id="chart-produk" class="chart-canvas" style="height:240px"></canvas></div>
+              </div>`;
             }
-        }
-        
-        // Perbarui dropdown bulan
-        function updateMonthSelector() {
-            const monthSelect = document.getElementById('month-select');
-            monthSelect.innerHTML = '';
-            
-            // Urutkan bulan dari yang terbaru
-            const sortedMonths = Object.keys(appData.months).sort().reverse();
-            
-            sortedMonths.forEach(month => {
-                const option = document.createElement('option');
-                option.value = month;
-                option.textContent = formatMonthName(month);
-                if (month === appData.currentMonth) {
-                    option.selected = true;
+
+            function drawCharts() {
+                if (currentPage !== "analisis") return;
+                const tx = DB.get("transactions", []);
+                if (tx.length === 0) return;
+
+                const days = {};
+                for (let i = 29; i >= 0; i--) { const d = new Date();
+                    d.setDate(d.getDate() - i);
+                    days[d.toDateString()] = { label: fmtDateShort(d), count: 0, income: 0 }; }
+                tx.forEach(t => { const ds = new Date(t.date).toDateString(); if (days[ds]) { days[ds].count++;
+                        days[ds].income += (t.sellPrice || 0); } });
+                const dayLabels = Object.values(days).map(d => d.label);
+                const dayCounts = Object.values(days).map(d => d.count);
+                const dayIncomes = Object.values(days).map(d => d.income);
+                drawBarChart("chart-harian", dayLabels, [
+                    { label: "Jumlah Transaksi", data: dayCounts, color: "#667eea" },
+                    { label: "Pendapatan (ribu)", data: dayIncomes.map(v => Math.round(v / 1000)), color: "#22c55e" }
+                ]);
+
+                const weekDays = ["Minggu", "Senin", "Selasa", "Rabu", "Kamis", "Jumat", "Sabtu"];
+                const weekCounts = [0, 0, 0, 0, 0, 0, 0];
+                const weekIncomes = [0, 0, 0, 0, 0, 0, 0];
+                tx.forEach(t => { const d = new Date(t.date).getDay();
+                    weekCounts[d]++;
+                    weekIncomes[d] += (t.sellPrice || 0); });
+                drawBarChart("chart-mingguan", weekDays, [
+                    { label: "Jumlah Transaksi", data: weekCounts, color: "#667eea" },
+                    { label: "Pendapatan (ribu)", data: weekIncomes.map(v => Math.round(v / 1000)), color: "#f59e0b" }
+                ]);
+
+                const products = DB.get("products", []);
+                const prodMap = {};
+                tx.forEach(t => { const p = products.find(x => x.id === t.productId); const name = p ? p.name : (t
+                        .productName || "Lainnya");
+                    prodMap[name] = (prodMap[name] || 0) + 1; });
+                drawPieChart("chart-produk", Object.keys(prodMap), Object.values(prodMap));
+            }
+
+            function drawBarChart(canvasId, labels, datasets) {
+                const canvas = document.getElementById(canvasId);
+                if (!canvas) return;
+                const ctx = canvas.getContext("2d");
+                const dpr = window.devicePixelRatio || 1;
+                const rect = canvas.getBoundingClientRect();
+                canvas.width = rect.width * dpr;
+                canvas.height = rect.height * dpr;
+                ctx.scale(dpr, dpr);
+                const w = rect.width,
+                    h = rect.height;
+                const pad = { top: 20, right: 20, bottom: 50, left: 50 };
+                const cw = w - pad.left - pad.right,
+                    ch = h - pad.top - pad.bottom;
+                ctx.clearRect(0, 0, w, h);
+                let maxVal = 0;
+                datasets.forEach(ds => maxVal = Math.max(maxVal, ...ds.data));
+                if (maxVal === 0) maxVal = 1;
+                ctx.strokeStyle = "#f1f5f9";
+                ctx.lineWidth = 1;
+                for (let i = 0; i <= 5; i++) { const y = pad.top + ch - (i / 5) * ch;
+                    ctx.beginPath();
+                    ctx.moveTo(pad.left, y);
+                    ctx.lineTo(w - pad.right, y);
+                    ctx.stroke();
+                    ctx.fillStyle = "#94a3b8";
+                    ctx.font = "11px sans-serif";
+                    ctx.textAlign = "right";
+                    ctx.fillText(Math.round((maxVal * i) / 5).toLocaleString("id-ID"), pad.left - 8, y + 4); }
+                const barW = cw / labels.length,
+                    groupW = barW * 0.7,
+                    barWidth = groupW / datasets.length,
+                    startX = pad.left + barW * 0.15;
+                datasets.forEach((ds, di) => { ctx.fillStyle = ds.color;
+                    ds.data.forEach((val, i) => { const bh = (val / maxVal) * ch;
+                        const x = startX + i * barW + di * barWidth;
+                        const y = pad.top + ch - bh;
+                        roundRect(ctx, x, y, barWidth - 4, bh, 4);
+                        ctx.fill(); }); });
+                ctx.fillStyle = "#64748b";
+                ctx.font = "11px sans-serif";
+                ctx.textAlign = "center";
+                labels.forEach((l, i) => { const x = pad.left + i * barW + barW / 2;
+                    ctx.save();
+                    ctx.translate(x, h - pad.bottom + 14);
+                    ctx.rotate(-Math.PI / 6);
+                    ctx.fillText(l, 0, 0);
+                    ctx.restore(); });
+                let lx = w - pad.right - 10;
+                datasets.slice().reverse().forEach(ds => { ctx.fillStyle = ds.color;
+                    ctx.beginPath();
+                    ctx.arc(lx - 8, pad.top - 8, 5, 0, Math.PI * 2);
+                    ctx.fill();
+                    ctx.fillStyle = "#475569";
+                    ctx.font = "11px sans-serif";
+                    ctx.textAlign = "right";
+                    ctx.fillText(ds.label, lx - 18, pad.top - 4);
+                    lx -= ctx.measureText(ds.label).width + 40; });
+            }
+
+            function drawPieChart(canvasId, labels, data) {
+                const canvas = document.getElementById(canvasId);
+                if (!canvas) return;
+                const ctx = canvas.getContext("2d");
+                const dpr = window.devicePixelRatio || 1;
+                const rect = canvas.getBoundingClientRect();
+                canvas.width = rect.width * dpr;
+                canvas.height = rect.height * dpr;
+                ctx.scale(dpr, dpr);
+                const w = rect.width,
+                    h = rect.height;
+                const cx = w / 2 - 80,
+                    cy = h / 2,
+                    r = Math.min(cx, cy) - 20;
+                const total = data.reduce((a, b) => a + b, 0);
+                if (total === 0) return;
+                const colors = ["#667eea", "#22c55e", "#f59e0b", "#ef4444", "#3b82f6", "#a855f7", "#14b8a6", "#f97316"];
+                let start = -Math.PI / 2;
+                data.forEach((val, i) => { const angle = (val / total) * Math.PI * 2;
+                    ctx.beginPath();
+                    ctx.moveTo(cx, cy);
+                    ctx.arc(cx, cy, r, start, start + angle);
+                    ctx.closePath();
+                    ctx.fillStyle = colors[i % colors.length];
+                    ctx.fill();
+                    start += angle; });
+                ctx.beginPath();
+                ctx.arc(cx, cy, r * 0.5, 0, Math.PI * 2);
+                ctx.fillStyle = "#fff";
+                ctx.fill();
+                let ly = cy - (data.length * 18) / 2;
+                const lx = cx + r + 30;
+                data.forEach((val, i) => { ctx.fillStyle = colors[i % colors.length];
+                    ctx.fillRect(lx, ly - 6, 12, 12);
+                    ctx.fillStyle = "#475569";
+                    ctx.font = "12px sans-serif";
+                    ctx.textAlign = "left";
+                    ctx.fillText(labels[i] + " (" + val + ")", lx + 18, ly + 4);
+                    ly += 24; });
+            }
+
+            function roundRect(ctx, x, y, w, h, r) {
+                ctx.beginPath();
+                ctx.moveTo(x + r, y);
+                ctx.lineTo(x + w - r, y);
+                ctx.quadraticCurveTo(x + w, y, x + w, y + r);
+                ctx.lineTo(x + w, y + h - r);
+                ctx.quadraticCurveTo(x + w, y + h, x + w - r, y + h);
+                ctx.lineTo(x + r, y + h);
+                ctx.quadraticCurveTo(x, y + h, x, y + h - r);
+                ctx.lineTo(x, y + r);
+                ctx.quadraticCurveTo(x, y, x + r, y);
+                ctx.closePath();
+            }
+
+            function pageProduk() {
+                const products = DB.get("products", []);
+                return `
+              <div class="page-container">
+                <div class="card">
+                  <div class="card-header"><h3>📦 Master Produk</h3><button class="btn btn-primary btn-sm" onclick="app.openModal('Tambah Produk', app.formProduk())">+ Tambah Produk</button></div>
+                  <table class="data-table">
+                    <thead><tr><th>Nama</th><th>Tipe</th><th>Harga Modal Default</th><th>Aksi</th></tr></thead>
+                    <tbody>
+                      ${products.map(p => `
+                        <tr>
+                          <td><span style="margin-right:6px">${p.icon}</span>${p.name}</td>
+                          <td><span class="badge badge-blue">${p.type}</span></td>
+                          <td>${rp(p.modalPrice)}</td>
+                          <td class="actions">
+                            <button class="btn btn-sm btn-secondary" onclick="app.editProduk('${p.id}')">✏️</button>
+                            <button class="btn btn-sm btn-danger" onclick="app.hapusProduk('${p.id}')">🗑️</button>
+                          </td>
+                        </tr>
+                      `).join("")}
+                    </tbody>
+                  </table>
+                </div>
+              </div>`;
+            }
+
+            function formProduk(edit) {
+                const p = edit || {};
+                return `
+              <form id="form-produk" onsubmit="app.saveProduk(event, '${p.id || ""}')">
+                <div class="form-group"><label>Nama Produk</label><input type="text" name="name" value="${p.name || ""}" required></div>
+                <div class="form-group"><label>Tipe / Kode</label><input type="text" name="type" value="${p.type || ""}" required placeholder="pulsa, paket_data, dll"></div>
+                <div class="form-group"><label>Icon (emoji)</label><input type="text" name="icon" value="${p.icon || "📦"}" maxlength="4"></div>
+                <div class="form-group"><label>Warna Background (hex)</label><input type="text" name="bg" value="${p.bg || "#f8fafc"}" placeholder="#f8fafc"></div>
+                <div class="form-group"><label>Harga Modal Default (Rp)</label><input type="number" name="modalPrice" value="${p.modalPrice || 0}" min="0"></div>
+                <div class="modal-footer" style="padding:0;border:none;margin-top:16px;">
+                  <button type="button" class="btn btn-secondary" onclick="app.closeModal()">Batal</button>
+                  <button type="submit" class="btn btn-primary">Simpan</button>
+                </div>
+              </form>`;
+            }
+
+            function pageOperator() {
+                const ops = DB.get("operators", []);
+                return `
+              <div class="page-container">
+                <div class="card">
+                  <div class="card-header"><h3>🏢 Master Operator</h3><button class="btn btn-primary btn-sm" onclick="app.openModal('Tambah Operator', app.formOperator())">+ Tambah Operator</button></div>
+                  <table class="data-table">
+                    <thead><tr><th>Nama Operator</th><th>Aksi</th></tr></thead>
+                    <tbody>
+                      ${ops.map(op => `
+                        <tr><td>${op.name}</td>
+                        <td class="actions">
+                          <button class="btn btn-sm btn-secondary" onclick="app.editOperator('${op.id}')">✏️</button>
+                          <button class="btn btn-sm btn-danger" onclick="app.hapusOperator('${op.id}')">🗑️</button>
+                        </td></tr>
+                      `).join("")}
+                    </tbody>
+                  </table>
+                </div>
+              </div>`;
+            }
+
+            function formOperator(edit) {
+                const o = edit || {};
+                return `
+              <form id="form-operator" onsubmit="app.saveOperator(event, '${o.id || ""}')">
+                <div class="form-group"><label>Nama Operator</label><input type="text" name="name" value="${o.name || ""}" required></div>
+                <div class="modal-footer" style="padding:0;border:none;margin-top:16px;">
+                  <button type="button" class="btn btn-secondary" onclick="app.closeModal()">Batal</button>
+                  <button type="submit" class="btn btn-primary">Simpan</button>
+                </div>
+              </form>`;
+            }
+
+            function pageMetodeBayar() {
+                const methods = DB.get("paymentMethods", []);
+                return `
+              <div class="page-container">
+                <div class="card">
+                  <div class="card-header"><h3>💳 Metode Pembayaran</h3><button class="btn btn-primary btn-sm" onclick="app.openModal('Tambah Metode', app.formMetode())">+ Tambah Metode</button></div>
+                  <table class="data-table">
+                    <thead><tr><th>Nama Metode</th><th>Aksi</th></tr></thead>
+                    <tbody>
+                      ${methods.map(m => `
+                        <tr><td>${m.name}</td>
+                        <td class="actions">
+                          <button class="btn btn-sm btn-secondary" onclick="app.editMetode('${m.id}')">✏️</button>
+                          <button class="btn btn-sm btn-danger" onclick="app.hapusMetode('${m.id}')">🗑️</button>
+                        </td></tr>
+                      `).join("")}
+                    </tbody>
+                  </table>
+                </div>
+              </div>`;
+            }
+
+            function formMetode(edit) {
+                const m = edit || {};
+                return `
+              <form id="form-metode" onsubmit="app.saveMetode(event, '${m.id || ""}')">
+                <div class="form-group"><label>Nama Metode Pembayaran</label><input type="text" name="name" value="${m.name || ""}" required></div>
+                <div class="modal-footer" style="padding:0;border:none;margin-top:16px;">
+                  <button type="button" class="btn btn-secondary" onclick="app.closeModal()">Batal</button>
+                  <button type="submit" class="btn btn-primary">Simpan</button>
+                </div>
+              </form>`;
+            }
+
+            function pageStok() {
+                const stocks = DB.get("stocks", []);
+                const sorted = [...stocks].sort((a, b) => new Date(b.date) - new Date(a.date));
+                return `
+              <div class="page-container">
+                <div class="card">
+                  <div class="card-header"><h3>🎫 Stok Voucher Gores & Kartu</h3><button class="btn btn-primary btn-sm" onclick="app.openModal('Tambah Stok', app.formStok())">+ Tambah Stok</button></div>
+                  ${stocks.length === 0 ? `<div class="empty-state"><div class="icon">🎫</div><h3>Belum ada stok</h3><p>Catat pembelian voucher dan kartu dari sales operator</p></div>` : `
+                  <table class="data-table">
+                    <thead><tr><th>Tanggal</th><th>Jenis</th><th>Nama</th><th>Qty</th><th>Harga Beli</th><th>Total</th><th>Aksi</th></tr></thead>
+                    <tbody>
+                      ${sorted.map(s => `
+                        <tr>
+                          <td>${fmtDateShort(s.date)}</td>
+                          <td><span class="badge badge-purple">${s.type}</span></td>
+                          <td>${s.name}</td>
+                          <td>${s.quantity}</td>
+                          <td>${rp(s.buyPrice)}</td>
+                          <td>${rp(s.buyPrice * s.quantity)}</td>
+                          <td class="actions">
+                            <button class="btn btn-sm btn-secondary" onclick="app.editStok('${s.id}')">✏️</button>
+                            <button class="btn btn-sm btn-danger" onclick="app.hapusStok('${s.id}')">🗑️</button>
+                          </td>
+                        </tr>
+                      `).join("")}
+                    </tbody>
+                  </table>`}
+                </div>
+              </div>`;
+            }
+
+            function formStok(edit) {
+                const s = edit || {};
+                return `
+              <form id="form-stok" onsubmit="app.saveStok(event, '${s.id || ""}')">
+                <div class="form-group"><label>Jenis</label>
+                  <select name="type"><option value="Voucher Gores" ${s.type==="Voucher Gores"?"selected":""}>Voucher Gores</option><option value="Kartu Perdana" ${s.type==="Kartu Perdana"?"selected":""}>Kartu Perdana</option><option value="Kartu Data" ${s.type==="Kartu Data"?"selected":""}>Kartu Data</option><option value="Lainnya" ${s.type==="Lainnya"?"selected":""}>Lainnya</option></select>
+                </div>
+                <div class="form-group"><label>Nama / Operator</label><input type="text" name="name" value="${s.name || ""}" required placeholder="Contoh: Voucher Telkomsel 10k"></div>
+                <div class="form-row">
+                  <div class="form-group"><label>Jumlah</label><input type="number" name="quantity" value="${s.quantity || 1}" required min="1"></div>
+                  <div class="form-group"><label>Harga Beli per Unit (Rp)</label><input type="number" name="buyPrice" value="${s.buyPrice || 0}" required min="0"></div>
+                </div>
+                <div class="modal-footer" style="padding:0;border:none;margin-top:16px;">
+                  <button type="button" class="btn btn-secondary" onclick="app.closeModal()">Batal</button>
+                  <button type="submit" class="btn btn-primary">Simpan</button>
+                </div>
+              </form>`;
+            }
+
+            function pageSubscription() {
+                const subs = DB.get("subscriptions", []);
+                const sorted = [...subs].sort((a, b) => new Date(b.date) - new Date(a.date));
+                return `
+              <div class="page-container">
+                <div class="card">
+                  <div class="card-header"><h3>📺 Pembelian Subscription</h3><button class="btn btn-primary btn-sm" onclick="app.openModal('Tambah Subscription', app.formSubscription())">+ Tambah Subscription</button></div>
+                  ${subs.length === 0 ? `<div class="empty-state"><div class="icon">📺</div><h3>Belum ada subscription</h3><p>Catat pembelian Netflix, Video, dan subscription lainnya</p></div>` : `
+                  <table class="data-table">
+                    <thead><tr><th>Tanggal</th><th>Layanan</th><th>Pelanggan</th><th>Harga Beli</th><th>Harga Jual</th><th>Laba</th><th>Aksi</th></tr></thead>
+                    <tbody>
+                      ${sorted.map(s => `
+                        <tr>
+                          <td>${fmtDateShort(s.date)}</td>
+                          <td><span class="badge badge-blue">${s.service}</span></td>
+                          <td>${s.customer || "-"}</td>
+                          <td>${rp(s.buyPrice)}</td>
+                          <td>${rp(s.sellPrice)}</td>
+                          <td style="color:${(s.sellPrice-s.buyPrice)>=0?"#166534":"#991b1b"}">${rp(s.sellPrice - s.buyPrice)}</td>
+                          <td class="actions">
+                            <button class="btn btn-sm btn-secondary" onclick="app.editSubscription('${s.id}')">✏️</button>
+                            <button class="btn btn-sm btn-danger" onclick="app.hapusSubscription('${s.id}')">🗑️</button>
+                          </td>
+                        </tr>
+                      `).join("")}
+                    </tbody>
+                  </table>`}
+                </div>
+              </div>`;
+            }
+
+            function formSubscription(edit) {
+                const s = edit || {};
+                return `
+              <form id="form-subscription" onsubmit="app.saveSubscription(event, '${s.id || ""}')">
+                <div class="form-group"><label>Layanan</label>
+                  <select name="service">
+                    <option value="Netflix" ${s.service==="Netflix"?"selected":""}>Netflix</option>
+                    <option value="Disney+" ${s.service==="Disney+"?"selected":""}>Disney+</option>
+                    <option value="Vidio" ${s.service==="Vidio"?"selected":""}>Vidio</option>
+                    <option value="Spotify" ${s.service==="Spotify"?"selected":""}>Spotify</option>
+                    <option value="YouTube Premium" ${s.service==="YouTube Premium"?"selected":""}>YouTube Premium</option>
+                    <option value="Lainnya" ${s.service==="Lainnya"?"selected":""}>Lainnya</option>
+                  </select>
+                </div>
+                <div class="form-group"><label>Nama Pelanggan</label><input type="text" name="customer" value="${s.customer || ""}" placeholder="Nama pelanggan"></div>
+                <div class="form-row">
+                  <div class="form-group"><label>Harga Beli (Rp)</label><input type="number" name="buyPrice" value="${s.buyPrice || 0}" required min="0"></div>
+                  <div class="form-group"><label>Harga Jual (Rp)</label><input type="number" name="sellPrice" value="${s.sellPrice || 0}" required min="0"></div>
+                </div>
+                <div class="form-group"><label>Catatan</label><input type="text" name="note" value="${s.note || ""}" placeholder="Contoh: 1 bulan sharing"></div>
+                <div class="modal-footer" style="padding:0;border:none;margin-top:16px;">
+                  <button type="button" class="btn btn-secondary" onclick="app.closeModal()">Batal</button>
+                  <button type="submit" class="btn btn-primary">Simpan</button>
+                </div>
+              </form>`;
+            }
+
+            function pagePengaturan() {
+                const balance = DB.get("initialBalance", 0);
+                const users = DB.get("users", []);
+                return `
+              <div class="page-container">
+                <div style="max-width:600px;margin:0 auto;">
+                  <div class="card" style="margin-bottom:20px;">
+                    <div class="card-header"><h3>⚙️ Saldo Awal / Modal</h3></div>
+                    <form onsubmit="app.saveBalance(event)">
+                      <div class="form-group"><label>Saldo Awal Konter (Rp)</label><input type="number" name="balance" value="${balance}" min="0"></div>
+                      <button type="submit" class="btn btn-primary">💾 Simpan Saldo</button>
+                    </form>
+                  </div>
+                  <div class="card">
+                    <div class="card-header"><h3>👥 Kelola Pengguna</h3><button class="btn btn-primary btn-sm" onclick="app.openModal('Tambah User', app.formUser())">+ Tambah User</button></div>
+                    <table class="data-table">
+                      <thead><tr><th>Nama</th><th>Username</th><th>Role</th><th>Aksi</th></tr></thead>
+                      <tbody>
+                        ${users.map(u => `
+                          <tr>
+                            <td>${u.name}</td>
+                            <td><code>${u.username}</code></td>
+                            <td><span class="badge ${u.role==="admin"?"badge-purple":"badge-blue"}">${u.role}</span></td>
+                            <td class="actions">
+                              ${u.id !== currentUser.id ? `<button class="btn btn-sm btn-danger" onclick="app.hapusUser('${u.id}')">🗑️</button>` : "<span style='font-size:12px;color:#94a3b8'>Anda</span>"}
+                            </td>
+                          </tr>
+                        `).join("")}
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>`;
+            }
+
+            function formUser() {
+                return `
+              <form id="form-user" onsubmit="app.saveUser(event)">
+                <div class="form-group"><label>Nama Lengkap</label><input type="text" name="name" required></div>
+                <div class="form-group"><label>Username</label><input type="text" name="username" required></div>
+                <div class="form-group"><label>Password</label><input type="password" name="password" required></div>
+                <div class="form-group"><label>Role</label>
+                  <select name="role"><option value="kasir">Kasir</option><option value="admin">Admin</option></select>
+                </div>
+                <div class="modal-footer" style="padding:0;border:none;margin-top:16px;">
+                  <button type="button" class="btn btn-secondary" onclick="app.closeModal()">Batal</button>
+                  <button type="submit" class="btn btn-primary">Simpan</button>
+                </div>
+              </form>`;
+            }
+
+            function renderPage() {
+                const content = document.getElementById("page-content");
+                const title = document.getElementById("page-title");
+                const titles = { dashboard: "Dashboard", transaksi: "Transaksi", laporan: "Laporan", analisis: "Analisis",
+                    produk: "Master Produk", operator: "Master Operator", "metode-bayar": "Metode Pembayaran",
+                    stok: "Stok Voucher & Kartu", subscription: "Subscription", pengaturan: "Pengaturan" };
+                title.textContent = titles[currentPage] || currentPage;
+
+                switch (currentPage) {
+                    case "dashboard":
+                        content.innerHTML = pageDashboard();
+                        break;
+                    case "transaksi":
+                        content.innerHTML = pageTransaksi();
+                        break;
+                    case "laporan":
+                        content.innerHTML = pageLaporan();
+                        break;
+                    case "analisis":
+                        content.innerHTML = pageAnalisis();
+                        setTimeout(drawCharts, 50);
+                        break;
+                    case "produk":
+                        content.innerHTML = pageProduk();
+                        break;
+                    case "operator":
+                        content.innerHTML = pageOperator();
+                        break;
+                    case "metode-bayar":
+                        content.innerHTML = pageMetodeBayar();
+                        break;
+                    case "stok":
+                        content.innerHTML = pageStok();
+                        break;
+                    case "subscription":
+                        content.innerHTML = pageSubscription();
+                        break;
+                    case "pengaturan":
+                        content.innerHTML = pagePengaturan();
+                        break;
+                    default:
+                        content.innerHTML = pageDashboard();
                 }
-                monthSelect.appendChild(option);
-            });
-            
-            // Tambahkan event listener
-            monthSelect.addEventListener('change', function() {
-                appData.currentMonth = this.value;
-                updateUI();
-            });
-        }
-        
-        // Hitung total untuk bulan aktif
-        function calculateTotals() {
-            const currentData = appData.months[appData.currentMonth];
-            let totalIncome = 0;
-            let totalExpense = 0;
-            let totalProfit = 0;
-            
-            currentData.transactions.forEach(transaction => {
-                if (transaction.type === 'income') {
-                    totalIncome += transaction.sellPrice * transaction.quantity;
-                    totalProfit += (transaction.sellPrice - transaction.costPrice) * transaction.quantity;
-                } else {
-                    totalExpense += transaction.costPrice * transaction.quantity;
-                }
-            });
-            
-            document.getElementById('total-income').textContent = formatRupiah(totalIncome);
-            document.getElementById('total-expense').textContent = formatRupiah(totalExpense);
-            document.getElementById('total-profit').textContent = formatRupiah(totalProfit);
-            
-            // Hitung total stok
-            let totalStock = 0;
-            let stockValue = 0;
-            for (const key in currentData.stock) {
-                totalStock += currentData.stock[key].stock;
-                stockValue += currentData.stock[key].costPrice * currentData.stock[key].stock;
+                updateSaldo();
+                renderSidebar();
             }
-            document.getElementById('total-stock').textContent = `${totalStock} item`;
-            
-            return { 
-                totalIncome, 
-                totalExpense, 
-                totalProfit,
-                totalStock,
-                stockValue
-            };
-        }
-        
-        // =====================
-        // EXPORT/IMPORT FUNCTIONS
-        // =====================
-        // Export data ke JSON
-        function exportToJSON() {
-            const dataStr = JSON.stringify(appData, null, 2);
-            const dataUri = 'data:application/json;charset=utf-8,'+ encodeURIComponent(dataStr);
-            
-            const exportName = `Pembukuan_Konter_Pulsa_Backup_${new Date().toISOString().slice(0,10)}.json`;
-            
-            const linkElement = document.createElement('a');
-            linkElement.setAttribute('href', dataUri);
-            linkElement.setAttribute('download', exportName);
-            linkElement.click();
-            
-            showNotification('export', 'Backup data berhasil didownload!');
-        }
-        
-        // Import data dari file
-        function importData() {
-            document.getElementById('file-input').click();
-        }
-        
-        // Handle file input change
-        document.getElementById('file-input').addEventListener('change', function(e) {
-            const file = e.target.files[0];
-            if (!file) return;
-            
-            const reader = new FileReader();
-            reader.onload = function(e) {
-                try {
-                    const data = JSON.parse(e.target.result);
-                    if (data.currentMonth && data.months) {
-                        importFileData = data;
-                        showImportModal();
-                    } else {
-                        throw new Error('Format file tidak valid');
-                    }
-                } catch (error) {
-                    alert('Gagal membaca file. Pastikan file backup valid.');
-                    console.error('Import error:', error);
-                }
-            };
-            reader.readAsText(file);
-            
-            // Reset input file
-            e.target.value = '';
-        });
-        
-        // Konfirmasi import data
-        function confirmImport() {
-            if (importFileData) {
-                appData = importFileData;
-                saveData();
-                updateMonthSelector();
-                updateUI();
-                closeImportModal();
-                showNotification('import', 'Data berhasil diimpor dari backup!');
+
+            function updateSaldo() {
+                const s = getStats();
+                document.getElementById("saldo-badge").innerHTML = "💰 Saldo: " + rp(s.balance);
             }
-            importFileData = null;
-        }
-        
-        // Export ke Excel
-        function exportToExcel() {
-            const currentData = appData.months[appData.currentMonth];
-            const totals = calculateTotals();
-            
-            // Siapkan data transaksi
-            const transactionData = [
-                ['Tanggal', 'Jenis', 'Jenis Voucher', 'Produk', 'Jumlah', 'Harga Modal', 'Harga Jual', 'Keuntungan', 'Keterangan']
-            ];
-            
-            currentData.transactions.forEach(t => {
-                const profit = (t.sellPrice - t.costPrice) * t.quantity;
-                transactionData.push([
-                    formatDate(t.date),
-                    t.type === 'income' ? 'Penjualan' : 'Pembelian',
-                    t.voucherType,
-                    t.voucherName,
-                    t.quantity,
-                    t.costPrice,
-                    t.sellPrice,
-                    profit,
-                    t.description || ''
-                ]);
-            });
-            
-            // Siapkan data stok
-            const stockData = [
-                ['Jenis Voucher', 'Produk', 'Stok', 'Harga Modal', 'Harga Jual', 'Keuntungan per Unit']
-            ];
-            
-            for (const key in currentData.stock) {
-                const item = currentData.stock[key];
-                const profitPerUnit = item.sellPrice - item.costPrice;
-                stockData.push([
-                    item.type,
-                    item.name,
-                    item.stock,
-                    item.costPrice,
-                    item.sellPrice,
-                    profitPerUnit
-                ]);
-            }
-            
-            // Siapkan data ringkasan
-            const summaryData = [
-                ['Ringkasan Bulanan', ''],
-                ['Bulan', formatMonthName(appData.currentMonth)],
-                ['Total Pemasukan', totals.totalIncome],
-                ['Total Pengeluaran', totals.totalExpense],
-                ['Total Keuntungan', totals.totalProfit],
-                ['Total Stok', totals.totalStock],
-                ['Nilai Stok', totals.stockValue]
-            ];
-            
-            // Buat workbook
-            const wb = XLSX.utils.book_new();
-            
-            // Tambahkan sheet
-            XLSX.utils.book_append_sheet(wb, XLSX.utils.aoa_to_sheet(summaryData), 'Ringkasan');
-            XLSX.utils.book_append_sheet(wb, XLSX.utils.aoa_to_sheet(transactionData), 'Transaksi');
-            XLSX.utils.book_append_sheet(wb, XLSX.utils.aoa_to_sheet(stockData), 'Stok');
-            
-            // Export ke file
-            const monthName = formatMonthName(appData.currentMonth).replace(' ', '_');
-            XLSX.writeFile(wb, `Pembukuan_Konter_Pulsa_${monthName}.xlsx`);
-            
-            showNotification('export', 'Data Excel berhasil didownload!');
-        }
-        
-        // Export ke PDF
-        function exportToPDF() {
-            const { jsPDF } = window.jspdf;
-            const doc = new jsPDF();
-            const monthName = formatMonthName(appData.currentMonth);
-            const totals = calculateTotals();
-            
-            // Judul
-            doc.setFontSize(18);
-            doc.text(`Pembukuan Konter Pulsa - ${monthName}`, 105, 15, null, null, 'center');
-            
-            // Ringkasan
-            doc.setFontSize(12);
-            doc.text(`Total Pemasukan: ${formatRupiah(totals.totalIncome)}`, 20, 30);
-            doc.text(`Total Pengeluaran: ${formatRupiah(totals.totalExpense)}`, 20, 40);
-            doc.text(`Total Keuntungan: ${formatRupiah(totals.totalProfit)}`, 20, 50);
-            doc.text(`Total Stok: ${totals.totalStock} item`, 20, 60);
-            doc.text(`Nilai Stok: ${formatRupiah(totals.stockValue)}`, 20, 70);
-            
-            // Transaksi
-            doc.addPage();
-            doc.setFontSize(16);
-            doc.text('Daftar Transaksi', 105, 15, null, null, 'center');
-            
-            const transactionData = [
-                ['Tanggal', 'Jenis', 'Produk', 'Jumlah', 'Keuntungan']
-            ];
-            
-            appData.months[appData.currentMonth].transactions.forEach(t => {
-                const profit = (t.sellPrice - t.costPrice) * t.quantity;
-                transactionData.push([
-                    formatDate(t.date),
-                    t.type === 'income' ? 'Penjualan' : 'Pembelian',
-                    `${t.voucherType} ${t.voucherName}`,
-                    t.quantity,
-                    formatRupiah(profit)
-                ]);
-            });
-            
-            doc.autoTable({
-                head: transactionData.slice(0, 1),
-                body: transactionData.slice(1),
-                startY: 25,
-                theme: 'grid',
-                headStyles: { fillColor: [67, 97, 238] }
-            });
-            
-            // Stok
-            doc.addPage();
-            doc.setFontSize(16);
-            doc.text('Daftar Stok', 105, 15, null, null, 'center');
-            
-            const stockData = [
-                ['Jenis', 'Produk', 'Stok', 'Harga Modal', 'Harga Jual']
-            ];
-            
-            for (const key in appData.months[appData.currentMonth].stock) {
-                const item = appData.months[appData.currentMonth].stock[key];
-                stockData.push([
-                    item.type,
-                    item.name,
-                    item.stock,
-                    formatRupiah(item.costPrice),
-                    formatRupiah(item.sellPrice)
-                ]);
-            }
-            
-            doc.autoTable({
-                head: stockData.slice(0, 1),
-                body: stockData.slice(1),
-                startY: 25,
-                theme: 'grid',
-                headStyles: { fillColor: [67, 97, 238] }
-            });
-            
-            // Simpan PDF
-            doc.save(`Pembukuan_Konter_Pulsa_${monthName.replace(' ', '_')}.pdf`);
-            
-            showNotification('export', 'Data PDF berhasil didownload!');
-        }
-        
-        // =====================
-        // UI UPDATES
-        // =====================
-        // Perbarui semua UI
-        function updateUI() {
-            const totals = calculateTotals();
-            updateChart();
-            updateTransactionHistory();
-            updateStockList();
-        }
-        
-        // Update grafik
-        function updateChart() {
-            const totals = calculateTotals();
-            const ctx = document.getElementById('finance-chart').getContext('2d');
-            
-            if (window.financeChart) {
-                window.financeChart.destroy();
-            }
-            
-            window.financeChart = new Chart(ctx, {
-                type: 'doughnut',
-                data: {
-                    labels: ['Pemasukan', 'Pengeluaran', 'Keuntungan'],
-                    datasets: [{
-                        data: [totals.totalIncome, totals.totalExpense, totals.totalProfit],
-                        backgroundColor: ['#4cc9f0', '#f72585', '#4ade80'],
-                        borderWidth: 0
-                    }]
+
+            window.app = {
+                login(e) {
+                    e.preventDefault();
+                    const form = e.target;
+                    const users = DB.get("users", []);
+                    const user = users.find(u => u.username === form.username.value && u.password === form.password
+                    .value);
+                    if (!user) { toast("Username atau password salah!", "error"); return; }
+                    currentUser = user;
+                    document.getElementById("login-page").style.display = "none";
+                    document.getElementById("app-layout").style.display = "flex";
+                    currentPage = "dashboard";
+                    renderPage();
+                    toast("Selamat datang, " + user.name + "!");
                 },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    plugins: {
-                        legend: {
-                            position: 'bottom',
-                            labels: {
-                                font: {
-                                    size: 14
-                                }
-                            }
-                        },
-                        tooltip: {
-                            callbacks: {
-                                label: function(context) {
-                                    return `${context.label}: ${formatRupiah(context.raw)}`;
-                                }
-                            }
-                        }
+                logout() {
+                    if (!confirm("Yakin ingin keluar?")) return;
+                    currentUser = null;
+                    currentPage = "dashboard";
+                    document.getElementById("app-layout").style.display = "none";
+                    document.getElementById("login-page").style.display = "flex";
+                    document.getElementById("login-form").reset();
+                },
+                setPage(page) {
+                    currentPage = page;
+                    sidebarOpen = false;
+                    document.getElementById("sidebar").classList.remove("open");
+                    document.getElementById("sidebar-overlay").classList.remove("show");
+                    renderPage();
+                    window.scrollTo({ top: 0, behavior: "smooth" });
+                },
+                toggleSidebar() {
+                    sidebarOpen = !sidebarOpen;
+                    document.getElementById("sidebar").classList.toggle("open", sidebarOpen);
+                    document.getElementById("sidebar-overlay").classList.toggle("show", sidebarOpen);
+                },
+                openModal(title, html) {
+                    document.getElementById("modal-title").textContent = title;
+                    document.getElementById("modal-body").innerHTML = html;
+                    document.getElementById("modal-footer").innerHTML = "";
+                    document.getElementById("modal-overlay").classList.add("show");
+                },
+                closeModal() {
+                    document.getElementById("modal-overlay").classList.remove("show");
+                },
+                onProductChange(pid) {
+                    if (currentUser.role !== "admin") {
+                        const products = DB.get("products", []);
+                        const p = products.find(x => x.id === pid);
+                        if (p) document.getElementById("input-modal").value = p.modalPrice || 0;
                     }
-                }
-            });
-        }
-        
-        // Update riwayat transaksi
-        function updateTransactionHistory() {
-            const filterType = document.getElementById('filter-type').value;
-            const tbody = document.getElementById('transaction-history');
-            tbody.innerHTML = '';
-            
-            const currentTransactions = appData.months[appData.currentMonth].transactions;
-            const filteredTransactions = filterType === 'all' 
-                ? currentTransactions 
-                : currentTransactions.filter(t => t.type === filterType);
-            
-            if (filteredTransactions.length === 0) {
-                tbody.innerHTML = `<tr><td colspan="6" class="text-center">Tidak ada transaksi</td></tr>`;
-                return;
-            }
-            
-            // Urutkan transaksi berdasarkan tanggal (terbaru pertama)
-            filteredTransactions.sort((a, b) => new Date(b.date) - new Date(a.date));
-            
-            filteredTransactions.forEach((transaction, index) => {
-                const profit = (transaction.sellPrice - transaction.costPrice) * transaction.quantity;
-                const profitClass = profit >= 0 ? 'positive' : 'negative';
-                
-                const row = document.createElement('tr');
-                row.innerHTML = `
-                    <td>${formatDate(transaction.date)}</td>
-                    <td><span class="badge ${transaction.type === 'income' ? 'bg-success' : 'bg-danger'}">${transaction.type === 'income' ? 'Penjualan' : 'Pembelian'}</span></td>
-                    <td>${transaction.voucherType} ${transaction.voucherName}</td>
-                    <td>${transaction.quantity}</td>
-                    <td class="${profitClass}">${formatRupiah(profit)}</td>
-                    <td class="action-cell">
-                        <button class="btn btn-sm btn-danger" onclick="deleteTransaction(${index})">Hapus</button>
-                    </td>
-                `;
-                tbody.appendChild(row);
-            });
-        }
-        
-        // Update daftar stok
-        function updateStockList() {
-            const tbody = document.getElementById('stock-list');
-            tbody.innerHTML = '';
-            
-            const currentStock = appData.months[appData.currentMonth].stock;
-            
-            if (Object.keys(currentStock).length === 0) {
-                tbody.innerHTML = `<tr><td colspan="6" class="text-center">Tidak ada stok</td></tr>`;
-                return;
-            }
-            
-            for (const key in currentStock) {
-                const item = currentStock[key];
-                const profitPerUnit = item.sellPrice - item.costPrice;
-                const profitClass = profitPerUnit >= 0 ? 'positive' : 'negative';
-                
-                const row = document.createElement('tr');
-                row.innerHTML = `
-                    <td>${item.type}</td>
-                    <td>${item.name}</td>
-                    <td>${item.stock}</td>
-                    <td>${formatRupiah(item.costPrice)}</td>
-                    <td>${formatRupiah(item.sellPrice)}</td>
-                    <td class="${profitClass}">${formatRupiah(profitPerUnit)}</td>
-                `;
-                tbody.appendChild(row);
-            }
-        }
-        
-        // =====================
-        // TRANSACTION OPERATIONS
-        // =====================
-        // Hapus transaksi
-        function deleteTransaction(index) {
-            const currentData = appData.months[appData.currentMonth];
-            const transaction = currentData.transactions[index];
-            
-            // Kembalikan stok jika transaksi adalah penjualan
-            if (transaction.type === 'income') {
-                const stockKey = `${transaction.voucherType}_${transaction.voucherName}`;
-                if (currentData.stock[stockKey]) {
-                    currentData.stock[stockKey].stock += transaction.quantity;
-                }
-            } 
-            // Kurangi stok jika transaksi adalah pembelian
-            else {
-                const stockKey = `${transaction.voucherType}_${transaction.voucherName}`;
-                if (currentData.stock[stockKey]) {
-                    currentData.stock[stockKey].stock -= transaction.quantity;
-                    
-                    // Hapus item jika stok menjadi 0
-                    if (currentData.stock[stockKey].stock <= 0) {
-                        delete currentData.stock[stockKey];
-                    }
-                }
-            }
-            
-            // Hapus transaksi
-            currentData.transactions.splice(index, 1);
-            
-            // Perbarui UI
-            saveData();
-            updateUI();
-        }
-        
-        // Tambah transaksi
-        document.getElementById('transaction-form').addEventListener('submit', function(e) {
-            e.preventDefault();
-            
-            // Ambil nilai dari form
-            const isIncome = document.getElementById('transaction-type').checked;
-            const voucherType = document.getElementById('voucher-type').value;
-            const voucherName = document.getElementById('voucher-name').value;
-            const costPrice = parseInt(document.getElementById('cost-price').value);
-            const sellPrice = parseInt(document.getElementById('sell-price').value);
-            const quantity = parseInt(document.getElementById('quantity').value);
-            const date = document.getElementById('transaction-date').value;
-            const description = document.getElementById('description').value;
-            
-            // Validasi input
-            if (!voucherType || !voucherName || isNaN(costPrice) || isNaN(sellPrice) || isNaN(quantity) || !date) {
-                alert('Harap isi semua field yang diperlukan!');
-                return;
-            }
-            
-            // Buat objek transaksi
-            const transaction = {
-                type: isIncome ? 'income' : 'expense',
-                voucherType,
-                voucherName,
-                costPrice,
-                sellPrice,
-                quantity,
-                date,
-                description,
-                timestamp: new Date().getTime()
-            };
-            
-            // Tambahkan transaksi ke array
-            const currentData = appData.months[appData.currentMonth];
-            currentData.transactions.push(transaction);
-            
-            // Kelola stok
-            const stockKey = `${voucherType}_${voucherName}`;
-            
-            if (!currentData.stock[stockKey]) {
-                // Buat item baru jika belum ada
-                currentData.stock[stockKey] = {
-                    type: voucherType,
-                    name: voucherName,
-                    costPrice,
-                    sellPrice,
-                    stock: 0
-                };
-            }
-            
-            // Perbarui stok
-            if (isIncome) {
-                // Penjualan - kurangi stok
-                currentData.stock[stockKey].stock -= quantity;
-            } else {
-                // Pembelian - tambah stok
-                currentData.stock[stockKey].stock += quantity;
-            }
-            
-            // Hapus item jika stok menjadi 0
-            if (currentData.stock[stockKey].stock <= 0) {
-                delete currentData.stock[stockKey];
-            }
-            
-            // Reset form
-            this.reset();
-            document.getElementById('quantity').value = 1;
-            document.getElementById('transaction-date').value = new Date().toISOString().split('T')[0];
-            
-            // Perbarui UI dan simpan data
-            saveData();
-            updateUI();
-        });
-        
-        // =====================
-        // CLOSING STATEMENT
-        // =====================
-        // Generate closing statement
-        function generateClosingStatement() {
-            const currentMonth = appData.currentMonth;
-            const totals = calculateTotals();
-            
-            // Tentukan status bulanan
-            let status, emoji, statusClass;
-            const profitRatio = totals.totalProfit / (totals.totalIncome || 1);
-            
-            if (profitRatio > 0.2) {
-                status = "Sangat Menguntungkan";
-                emoji = "😊";
-                statusClass = "status-profit";
-            } else if (profitRatio > 0.05) {
-                status = "Menguntungkan";
-                emoji = "🙂";
-                statusClass = "status-profit";
-            } else if (totals.totalProfit > 0) {
-                status = "Biasa Saja";
-                emoji = "😐";
-                statusClass = "status-normal";
-            } else {
-                status = "Rugi";
-                emoji = "😞";
-                statusClass = "status-loss";
-            }
-            
-            // Dapatkan produk terlaris
-            let bestSeller = "Tidak ada";
-            let maxSales = 0;
-            const salesCount = {};
-            
-            appData.months[currentMonth].transactions
-                .filter(t => t.type === 'income')
-                .forEach(t => {
-                    const productKey = `${t.voucherType} ${t.voucherName}`;
-                    salesCount[productKey] = (salesCount[productKey] || 0) + t.quantity;
-                    
-                    if (salesCount[productKey] > maxSales) {
-                        maxSales = salesCount[productKey];
-                        bestSeller = productKey;
-                    }
-                });
-            
-            // Update UI
-            document.getElementById('closing-month').textContent = formatMonthName(currentMonth);
-            document.getElementById('status-emoji').textContent = emoji;
-            document.getElementById('cs-income').textContent = formatRupiah(totals.totalIncome);
-            document.getElementById('cs-expense').textContent = formatRupiah(totals.totalExpense);
-            document.getElementById('cs-profit').textContent = formatRupiah(totals.totalProfit);
-            document.getElementById('cs-status').textContent = status;
-            document.getElementById('cs-status').className = `badge-status ${statusClass}`;
-            document.getElementById('cs-total-stock').textContent = totals.totalStock;
-            document.getElementById('cs-stock-value').textContent = formatRupiah(totals.stockValue);
-            document.getElementById('cs-best-seller').textContent = bestSeller;
-            
-            // Tampilkan closing statement
-            document.getElementById('closing-statement-container').style.display = 'block';
-        }
-        
-        // Tutup bulan saat ini
-        function closeCurrentMonth() {
-            if (confirm(`Apakah Anda yakin ingin menutup bulan ${formatMonthName(appData.currentMonth)}? Stok tidak akan dibawa ke bulan berikutnya.`)) {
-                // Reset stok untuk bulan ini (tapi biarkan datanya tetap ada)
-                appData.months[appData.currentMonth].stock = {};
-                
-                // Pindah ke bulan berikutnya
-                const [year, month] = appData.currentMonth.split('-');
-                let nextMonth = parseInt(month) + 1;
-                let nextYear = parseInt(year);
-                
-                if (nextMonth > 12) {
-                    nextMonth = 1;
-                    nextYear++;
-                }
-                
-                const nextMonthKey = `${nextYear}-${String(nextMonth).padStart(2, '0')}`;
-                
-                // Jika bulan berikutnya belum ada, buat baru
-                if (!appData.months[nextMonthKey]) {
-                    appData.months[nextMonthKey] = {
-                        transactions: [],
-                        stock: {}
+                },
+                submitTransaksi(e) {
+                    e.preventDefault();
+                    const form = e.target;
+                    const products = DB.get("products", []);
+                    const pid = form.querySelector('input[name="productId"]:checked').value;
+                    const p = products.find(x => x.id === pid);
+                    const modalPrice = currentUser.role === "admin" ? (parseInt(form.modalPrice.value) || 0) : (p ? p
+                        .modalPrice : 0);
+                    const sellPrice = parseInt(form.sellPrice.value) || 0;
+
+                    const tx = {
+                        id: uid(),
+                        productId: pid,
+                        productName: p ? p.name : "",
+                        operatorId: form.operatorId.value,
+                        paymentMethodId: form.paymentMethodId.value,
+                        customerNumber: form.customerNumber.value.trim(),
+                        customerName: form.customerName.value.trim(),
+                        modalPrice,
+                        sellPrice,
+                        source: form.source.value,
+                        note: form.note.value.trim(),
+                        cashierId: currentUser.id,
+                        cashierName: currentUser.name,
+                        date: nowISO()
                     };
-                }
-                
-                appData.currentMonth = nextMonthKey;
-                
-                // Simpan dan perbarui UI
-                saveData();
-                updateMonthSelector();
-                updateUI();
-                
-                // Sembunyikan closing statement
-                document.getElementById('closing-statement-container').style.display = 'none';
-                
-                showNotification('success', `Pembukuan bulan ${formatMonthName(appData.currentMonth)} telah dimulai!`);
-            }
-        }
-        
-        // =====================
-        // INITIALIZATION
-        // =====================
-        // Set tanggal default ke hari ini
-        document.getElementById('transaction-date').value = new Date().toISOString().split('T')[0];
-        
-        // Event listener untuk filter
-        document.getElementById('filter-type').addEventListener('change', updateTransactionHistory);
-        
-        // Inisialisasi aplikasi
-        initAppData();
-        updateUI();
+                    const txs = DB.get("transactions", []);
+                    txs.unshift(tx);
+                    DB.set("transactions", txs);
+                    toast("Transaksi berhasil disimpan!");
+
+                    if (currentUser.role === "kasir") {
+                        const methods = DB.get("paymentMethods", []);
+                        const pm = methods.find(m => m.id === tx.paymentMethodId);
+                        this.openModal("🧾 Resi / Bukti Transaksi", this.renderReceipt(tx, p, pm));
+                        document.getElementById("modal-footer").innerHTML =
+                            `<button class="btn btn-primary" onclick="window.print()">🖨️ Cetak / Print</button><button class="btn btn-secondary" onclick="app.closeModal();app.setPage('dashboard')">Tutup</button>`;
+                    } else {
+                        this.setPage("dashboard");
+                    }
+                },
+                renderReceipt(tx, product, method) {
+                    return `
+                    <div class="receipt">
+                      <div class="receipt-header">
+                        <h4>🧾 KONTER PULSA</h4>
+                        <p>${fmtDate(tx.date)}<br>${new Date(tx.date).toLocaleTimeString("id-ID")}</p>
+                      </div>
+                      <div class="receipt-row"><span>Kasir</span><span>${tx.cashierName}</span></div>
+                      <div class="receipt-row"><span>Produk</span><span>${product ? product.icon + " " + product.name : tx.productName}</span></div>
+                      <div class="receipt-row"><span>Detail</span><span>${tx.note || "-"}</span></div>
+                      <div class="receipt-row"><span>No. Tujuan</span><span>${tx.customerNumber}</span></div>
+                      <div class="receipt-row"><span>Pelanggan</span><span>${tx.customerName || "-"}</span></div>
+                      <div class="receipt-row"><span>Metode</span><span>${method ? method.name : "-"}</span></div>
+                      <div class="receipt-row"><span>Sumber</span><span>${tx.source}</span></div>
+                      <div class="receipt-row total"><span>TOTAL BAYAR</span><span>${rp(tx.sellPrice)}</span></div>
+                      <div class="receipt-footer">
+                        Terima kasih telah bertransaksi!<br>
+                        Simpan struk ini sebagai bukti pembayaran
+                      </div>
+                    </div>
+                    <p style="text-align:center;margin-top:12px;font-size:12px;color:#94a3b8;">Tekan Ctrl+P atau klik tombol Cetak di atas</p>
+                  `;
+                },
+                hapusTransaksi(id) {
+                    if (!confirm("Yakin ingin menghapus transaksi ini?")) return;
+                    const txs = DB.get("transactions", []).filter(t => t.id !== id);
+                    DB.set("transactions", txs);
+                    renderPage();
+                    toast("Transaksi dihapus");
+                },
+                hapusSemuaTx() {
+                    if (!confirm("⚠️ Yakin hapus SEMUA transaksi?")) return;
+                    DB.set("transactions", []);
+                    renderPage();
+                    toast("Semua transaksi dihapus");
+                },
+                saveProduk(e, id) {
+                    e.preventDefault();
+                    const form = e.target;
+                    const products = DB.get("products", []);
+                    const data = { id: id || uid(), name: form.name.value, type: form.type.value, icon: form.icon
+                            .value, bg: form.bg.value, modalPrice: parseInt(form.modalPrice.value) || 0 };
+                    if (id) { const i = products.findIndex(p => p.id === id); if (i >= 0) products[i] = data; } else
+                        products.push(data);
+                    DB.set("products", products);
+                    this.closeModal();
+                    renderPage();
+                    toast(id ? "Produk diperbarui" : "Produk ditambahkan");
+                },
+                editProduk(id) {
+                    const p = DB.get("products", []).find(x => x.id === id);
+                    if (p) this.openModal("Edit Produk", formProduk(p));
+                },
+                hapusProduk(id) {
+                    if (!confirm("Yakin hapus produk ini?")) return;
+                    DB.set("products", DB.get("products", []).filter(p => p.id !== id));
+                    renderPage();
+                    toast("Produk dihapus");
+                },
+                saveOperator(e, id) {
+                    e.preventDefault();
+                    const ops = DB.get("operators", []);
+                    const data = { id: id || uid(), name: e.target.name.value };
+                    if (id) { const i = ops.findIndex(o => o.id === id); if (i >= 0) ops[i] = data; } else ops.push(
+                        data);
+                    DB.set("operators", ops);
+                    this.closeModal();
+                    renderPage();
+                    toast(id ? "Operator diperbarui" : "Operator ditambahkan");
+                },
+                editOperator(id) { const o = DB.get("operators", []).find(x => x.id === id); if (o) this.openModal(
+                        "Edit Operator", formOperator(o)); },
+                hapusOperator(id) { if (!confirm("Yakin hapus operator ini?")) return;
+                    DB.set("operators", DB.get("operators", []).filter(o => o.id !== id));
+                    renderPage();
+                    toast("Operator dihapus"); },
+                saveMetode(e, id) {
+                    e.preventDefault();
+                    const methods = DB.get("paymentMethods", []);
+                    const data = { id: id || uid(), name: e.target.name.value };
+                    if (id) { const i = methods.findIndex(m => m.id === id); if (i >= 0) methods[i] = data; } else
+                        methods.push(data);
+                    DB.set("paymentMethods", methods);
+                    this.closeModal();
+                    renderPage();
+                    toast(id ? "Metode diperbarui" : "Metode ditambahkan");
+                },
+                editMetode(id) { const m = DB.get("paymentMethods", []).find(x => x.id === id); if (m) this.openModal(
+                        "Edit Metode", formMetode(m)); },
+                hapusMetode(id) { if (!confirm("Yakin hapus metode ini?")) return;
+                    DB.set("paymentMethods", DB.get("paymentMethods", []).filter(m => m.id !== id));
+                    renderPage();
+                    toast("Metode dihapus"); },
+                saveStok(e, id) {
+                    e.preventDefault();
+                    const form = e.target;
+                    const stocks = DB.get("stocks", []);
+                    const data = { id: id || uid(), type: form.type.value, name: form.name.value, quantity: parseInt(
+                            form.quantity.value) || 0, buyPrice: parseInt(form.buyPrice.value) || 0, date: id ? (
+                            stocks.find(s => s.id === id)?.date || nowISO()) : nowISO() };
+                    if (id) { const i = stocks.findIndex(s => s.id === id); if (i >= 0) stocks[i] = data; } else
+                        stocks.push(data);
+                    DB.set("stocks", stocks);
+                    this.closeModal();
+                    renderPage();
+                    toast(id ? "Stok diperbarui" : "Stok ditambahkan");
+                },
+                editStok(id) { const s = DB.get("stocks", []).find(x => x.id === id); if (s) this.openModal(
+                        "Edit Stok", formStok(s)); },
+                hapusStok(id) { if (!confirm("Yakin hapus data stok ini?")) return;
+                    DB.set("stocks", DB.get("stocks", []).filter(s => s.id !== id));
+                    renderPage();
+                    toast("Stok dihapus"); },
+                saveSubscription(e, id) {
+                    e.preventDefault();
+                    const form = e.target;
+                    const subs = DB.get("subscriptions", []);
+                    const data = { id: id || uid(), service: form.service.value, customer: form.customer.value,
+                        buyPrice: parseInt(form.buyPrice.value) || 0, sellPrice: parseInt(form.sellPrice.value) ||
+                        0, note: form.note.value, date: id ? (subs.find(s => s.id === id)?.date || nowISO()) :
+                        nowISO() };
+                    if (id) { const i = subs.findIndex(s => s.id === id); if (i >= 0) subs[i] = data; } else subs
+                        .push(data);
+                    DB.set("subscriptions", subs);
+                    this.closeModal();
+                    renderPage();
+                    toast(id ? "Subscription diperbarui" : "Subscription ditambahkan");
+                },
+                editSubscription(id) { const s = DB.get("subscriptions", []).find(x => x.id === id); if (s) this
+                        .openModal("Edit Subscription", formSubscription(s)); },
+                hapusSubscription(id) { if (!confirm("Yakin hapus subscription ini?")) return;
+                    DB.set("subscriptions", DB.get("subscriptions", []).filter(s => s.id !== id));
+                    renderPage();
+                    toast("Subscription dihapus"); },
+                saveBalance(e) {
+                    e.preventDefault();
+                    DB.set("initialBalance", parseInt(e.target.balance.value) || 0);
+                    renderPage();
+                    toast("Saldo awal diperbarui!");
+                },
+                saveUser(e) {
+                    e.preventDefault();
+                    const form = e.target;
+                    const users = DB.get("users", []);
+                    if (users.find(u => u.username === form.username.value)) { toast("Username sudah digunakan!",
+                            "error"); return; }
+                    users.push({ id: uid(), name: form.name.value, username: form.username.value, password: form
+                            .password.value, role: form.role.value });
+                    DB.set("users", users);
+                    this.closeModal();
+                    renderPage();
+                    toast("User ditambahkan");
+                },
+                hapusUser(id) {
+                    if (!confirm("Yakin hapus user ini?")) return;
+                    DB.set("users", DB.get("users", []).filter(u => u.id !== id));
+                    renderPage();
+                    toast("User dihapus");
+                },
+                formProduk,
+                formOperator,
+                formMetode,
+                formStok,
+                formSubscription,
+                formUser
+            };
+
+            window.addEventListener("resize", () => { if (currentPage === "analisis") setTimeout(drawCharts, 100); });
+        })();
     </script>
 </body>
 </html>
