@@ -1031,6 +1031,38 @@
 
         const STORAGE_KEY = 'utomo_cell_data';
 
+        // Mapping kategori -> daftar provider yang relevan
+        const CATEGORY_PROVIDERS = {
+            'Pulsa': ['Telkomsel', 'Indosat', 'XL', 'Tri', 'Smartfren'],
+            'Token Listrik': ['PLN'],
+            'Paket Data': ['Telkomsel', 'Indosat', 'XL', 'Tri'],
+            'Kartu Perdana': ['Telkomsel', 'Indosat', 'XL', 'Tri', 'Smartfren'],
+            'PPOB': ['PDAM', 'BPJS Kesehatan', 'BPJS Ketenagakerjaan', 'Cicilan Kendaraan', 'Kartu Kredit', 'Tagihan Listrik',
+                'Tagihan TV', 'Telkom'
+            ],
+            'E-Commerce': ['Shopee', 'Tokopedia', 'Lazada', 'Blibli', 'Bukalapak'],
+            'Voucher Game': ['Mobile Legends', 'Free Fire', 'PUBG Mobile', 'Valorant', 'Steam Wallet', 'PlayStation',
+                'Xbox'
+            ],
+            'Streaming': ['Netflix', 'Vidio', 'Disney+', 'YouTube Premium', 'Spotify'],
+            'Transfer Bank': ['BCA', 'Mandiri', 'BNI', 'BRI', 'BTN', 'CIMB Niaga', 'Permata', 'Danamon', 'OCBC NISP'],
+            'E-Wallet': ['DANA', 'OVO', 'GoPay', 'ShopeePay', 'LinkAja'],
+            'Tarik Tunai': ['BCA', 'Mandiri', 'BNI', 'BRI'],
+            'Lainnya': ['Lainnya']
+        };
+
+        // Daftar semua operator unik (untuk dropdown di manajemen operator)
+        const ALL_OPERATORS = [
+            'Telkomsel', 'Indosat', 'XL', 'Tri', 'Smartfren',
+            'PLN', 'PDAM', 'BPJS Kesehatan', 'BPJS Ketenagakerjaan', 'Cicilan Kendaraan', 'Kartu Kredit',
+            'Tagihan Listrik', 'Tagihan TV', 'Telkom',
+            'Shopee', 'Tokopedia', 'Lazada', 'Blibli', 'Bukalapak',
+            'Mobile Legends', 'Free Fire', 'PUBG Mobile', 'Valorant', 'Steam Wallet', 'PlayStation', 'Xbox',
+            'Netflix', 'Vidio', 'Disney+', 'YouTube Premium', 'Spotify',
+            'BCA', 'Mandiri', 'BNI', 'BRI', 'BTN', 'CIMB Niaga', 'Permata', 'Danamon', 'OCBC NISP',
+            'DANA', 'OVO', 'GoPay', 'ShopeePay', 'LinkAja'
+        ];
+
         function defaultData() {
             return {
                 users: [
@@ -1038,80 +1070,38 @@
                     { id: 'kasir1', username: 'kasir1', password: '123', role: 'kasir', name: 'Kasir 1' },
                     { id: 'kasir2', username: 'kasir2', password: '123', role: 'kasir', name: 'Kasir 2' }
                 ],
-                // Produk diperluas sesuai banner
                 products: [
                     // Pulsa
                     { id: 'p1', name: 'Pulsa 10K', category: 'Pulsa', operator: 'Telkomsel', priceCost: 9500,
                         priceSell: 10500, stock: 50 },
-                    { id: 'p2', name: 'Pulsa 20K', category: 'Pulsa', operator: 'Telkomsel', priceCost: 19000,
+                    { id: 'p2', name: 'Pulsa 20K', category: 'Pulsa', operator: 'Indosat', priceCost: 19000,
                         priceSell: 21000, stock: 40 },
-                    { id: 'p3', name: 'Pulsa 50K', category: 'Pulsa', operator: 'Indosat', priceCost: 48000,
-                        priceSell: 52000, stock: 30 },
                     // Token Listrik
-                    { id: 'p4', name: 'Token Listrik 50K', category: 'Token Listrik', operator: 'PLN', priceCost: 50000,
-                        priceSell: 55000, stock: 20 },
-                    { id: 'p5', name: 'Token Listrik 100K', category: 'Token Listrik', operator: 'PLN', priceCost: 100000,
-                        priceSell: 105000, stock: 15 },
-                    // Paket Data
-                    { id: 'p6', name: 'Paket Data 5GB', category: 'Paket Data', operator: 'Telkomsel', priceCost: 60000,
-                        priceSell: 65000, stock: 25 },
-                    { id: 'p7', name: 'Paket Data 10GB', category: 'Paket Data', operator: 'Indosat', priceCost: 95000,
-                        priceSell: 100000, stock: 20 },
-                    // Kartu Perdana
-                    { id: 'p8', name: 'Kartu Perdana Telkomsel', category: 'Kartu Perdana', operator: 'Telkomsel',
-                        priceCost: 15000, priceSell: 20000, stock: 30 },
-                    // Tagihan PPOB (Listrik, TV, Internet)
-                    { id: 'p9', name: 'Tagihan Listrik Pascabayar', category: 'PPOB', operator: 'PLN', priceCost: 0,
-                        priceSell: 0, stock: 999 },
-                    { id: 'p10', name: 'Tagihan Internet Indihome', category: 'PPOB', operator: 'Indihome', priceCost: 0,
-                        priceSell: 0, stock: 999 },
-                    { id: 'p11', name: 'Tagihan TV Berlangganan', category: 'PPOB', operator: 'MNC Vision', priceCost: 0,
-                        priceSell: 0, stock: 999 },
-                    // E-Commerce
-                    { id: 'p12', name: 'Topup Shopee', category: 'E-Commerce', operator: 'Shopee', priceCost: 0,
-                        priceSell: 0, stock: 999 },
-                    { id: 'p13', name: 'Topup Tokopedia', category: 'E-Commerce', operator: 'Tokopedia', priceCost: 0,
+                    { id: 'p3', name: 'Token 20k', category: 'Token Listrik', operator: 'PLN', priceCost: 20000,
+                        priceSell: 22000, stock: 30 },
+                    { id: 'p4', name: 'Token 50k', category: 'Token Listrik', operator: 'PLN', priceCost: 50000,
+                        priceSell: 54000, stock: 25 },
+                    // PPOB
+                    { id: 'p5', name: 'Bayar PDAM', category: 'PPOB', operator: 'PDAM', priceCost: 0, priceSell: 0,
+                        stock: 999 },
+                    { id: 'p6', name: 'Bayar BPJS Kesehatan', category: 'PPOB', operator: 'BPJS Kesehatan', priceCost: 0,
                         priceSell: 0, stock: 999 },
                     // Voucher Game
-                    { id: 'p14', name: 'Voucher Free Fire 100', category: 'Voucher Game', operator: 'Free Fire',
-                        priceCost: 95000, priceSell: 100000, stock: 10 },
-                    { id: 'p15', name: 'Voucher Mobile Legends', category: 'Voucher Game', operator: 'Mobile Legends',
-                        priceCost: 50000, priceSell: 55000, stock: 15 },
+                    { id: 'p7', name: 'Mobile Legends 100 Diamond', category: 'Voucher Game', operator: 'Mobile Legends',
+                        priceCost: 85000, priceSell: 90000, stock: 20 },
+                    { id: 'p8', name: 'Free Fire 1000 Diamond', category: 'Voucher Game', operator: 'Free Fire',
+                        priceCost: 90000, priceSell: 96000, stock: 15 },
                     // Streaming
-                    { id: 'p16', name: 'Netflix 1 Bulan', category: 'Streaming', operator: 'Netflix', priceCost: 54000,
+                    { id: 'p9', name: 'Netflix 1 Bulan', category: 'Streaming', operator: 'Netflix', priceCost: 54000,
                         priceSell: 59000, stock: 20 },
-                    { id: 'p17', name: 'Vidio 1 Bulan', category: 'Streaming', operator: 'Vidio', priceCost: 29000,
-                        priceSell: 34000, stock: 20 },
-                    // Transfer Bank & E-Wallet
-                    { id: 'p18', name: 'Transfer Bank (BCA)', category: 'Transfer Bank', operator: 'BCA', priceCost: 0,
+                    // Transfer Bank
+                    { id: 'p10', name: 'Transfer BCA', category: 'Transfer Bank', operator: 'BCA', priceCost: 0,
                         priceSell: 0, stock: 999 },
-                    { id: 'p19', name: 'Topup DANA', category: 'E-Wallet', operator: 'DANA', priceCost: 0, priceSell: 0,
+                    // E-Wallet
+                    { id: 'p11', name: 'Topup DANA', category: 'E-Wallet', operator: 'DANA', priceCost: 0, priceSell: 0,
                         stock: 999 },
-                    { id: 'p20', name: 'Topup OVO', category: 'E-Wallet', operator: 'OVO', priceCost: 0, priceSell: 0,
-                        stock: 999 },
-                    // Tarik Tunai
-                    { id: 'p21', name: 'Tarik Tunai (BCA)', category: 'Tarik Tunai', operator: 'BCA', priceCost: 0,
-                        priceSell: 0, stock: 999 },
                 ],
-                operators: [
-                    { id: 'op1', name: 'Telkomsel' },
-                    { id: 'op2', name: 'Indosat' },
-                    { id: 'op3', name: 'XL' },
-                    { id: 'op4', name: 'Tri' },
-                    { id: 'op5', name: 'Smartfren' },
-                    { id: 'op6', name: 'PLN' },
-                    { id: 'op7', name: 'Indihome' },
-                    { id: 'op8', name: 'MNC Vision' },
-                    { id: 'op9', name: 'Shopee' },
-                    { id: 'op10', name: 'Tokopedia' },
-                    { id: 'op11', name: 'Netflix' },
-                    { id: 'op12', name: 'Vidio' },
-                    { id: 'op13', name: 'DANA' },
-                    { id: 'op14', name: 'OVO' },
-                    { id: 'op15', name: 'BCA' },
-                    { id: 'op16', name: 'Free Fire' },
-                    { id: 'op17', name: 'Mobile Legends' },
-                ],
+                operators: ALL_OPERATORS.map(name => ({ id: 'op_' + name.toLowerCase().replace(/\s/g, '_'), name })),
                 paymentMethods: [
                     { id: 'pm1', name: 'Cash' },
                     { id: 'pm2', name: 'BCA' },
@@ -1124,13 +1114,11 @@
                 subscriptions: [
                     { id: 'sub1', name: 'Netflix', monthlyCost: 54000 },
                     { id: 'sub2', name: 'Disney+', monthlyCost: 39000 },
-                    { id: 'sub3', name: 'YouTube Premium', monthlyCost: 59000 },
-                    { id: 'sub4', name: 'Vidio', monthlyCost: 29000 },
+                    { id: 'sub3', name: 'Vidio', monthlyCost: 29000 },
                 ],
                 vouchers: [
                     { id: 'v1', name: 'Voucher Gesek 50K', cost: 48000 },
-                    { id: 'v2', name: 'Voucher Gesek 100K', cost: 97000 },
-                    { id: 'v3', name: 'Kartu Perdana Telkomsel', cost: 15000 },
+                    { id: 'v2', name: 'Kartu Perdana Telkomsel', cost: 15000 },
                 ],
                 transactions: [],
                 initialBalance: 1000000,
@@ -1786,7 +1774,7 @@ scales: { y: { beginAtZero: true, ticks: { callback: v => 'Rp ' + (v / 1000) + '
 }
 
 // ================================================================
-//  PRODUCTS (Admin)
+//  PRODUCTS (Admin) - dengan dynamic provider berdasarkan kategori
 // ================================================================
 
 function renderProducts() {
@@ -1816,11 +1804,15 @@ tbody.innerHTML = data.products.map(p => `
 function showProductModal(editId = null) {
 const isEdit = !!editId;
 const p = isEdit ? data.products.find(x => x.id === editId) : null;
-const operatorOpts = data.operators.map(o =>
-`<option value="${o.name}" ${p && p.operator === o.name ? 'selected' : ''}>${o.name}</option>`
+
+// Daftar kategori
+const categoryList = Object.keys(CATEGORY_PROVIDERS);
+const categoryOpts = categoryList.map(c =>
+`<option value="${c}" ${p && p.category === c ? 'selected' : ''}>${c}</option>`
 ).join('');
-const categoryOpts = ['Pulsa', 'Token Listrik', 'Paket Data', 'Kartu Perdana', 'PPOB', 'E-Commerce', 'Voucher Game', 'Streaming', 'Transfer Bank', 'E-Wallet', 'Tarik Tunai', 'Lainnya']
-.map(c => `<option value="${c}" ${p && p.category === c ? 'selected' : ''}>${c}</option>`).join('');
+
+// Provider akan diisi ulang via JS saat kategori berubah
+const providerOpts = `<option value="">-- Pilih operator --</option>`;
 
 const html = `
 <form id="productForm" onsubmit="submitProduct(event, '${editId || ''}')">
@@ -1831,11 +1823,11 @@ const html = `
     </div>
     <div class="form-group">
       <label>Kategori</label>
-      <select id="prodCategory">${categoryOpts}</select>
+      <select id="prodCategory" required>${categoryOpts}</select>
     </div>
     <div class="form-group">
       <label>Operator/Provider</label>
-      <select id="prodOperator">${operatorOpts}</select>
+      <select id="prodOperator" required>${providerOpts}</select>
     </div>
     <div class="form-group">
       <label>Harga Modal (Rp)</label>
@@ -1857,6 +1849,37 @@ const html = `
 </form>
 `;
 openModal(isEdit ? 'Edit Produk' : 'Tambah Produk', html);
+
+// Event listener untuk mengisi provider berdasarkan kategori
+const categorySelect = document.getElementById('prodCategory');
+const operatorSelect = document.getElementById('prodOperator');
+
+function updateProviders() {
+const category = categorySelect.value;
+const providers = CATEGORY_PROVIDERS[category] || ['Lainnya'];
+operatorSelect.innerHTML = providers.map(prov =>
+`<option value="${prov}" ${p && p.operator === prov ? 'selected' : ''}>${prov}</option>`
+).join('');
+// Jika tidak ada pilihan, tambahkan opsi kosong
+if (providers.length === 0) {
+operatorSelect.innerHTML = `<option value="">-- Tidak ada provider --</option>`;
+}
+}
+
+categorySelect.addEventListener('change', updateProviders);
+// Set initial provider jika edit
+if (p && p.category) {
+// set kategori dulu
+categorySelect.value = p.category;
+updateProviders();
+// set operator
+if (p.operator) {
+operatorSelect.value = p.operator;
+}
+} else {
+// default ke kategori pertama
+updateProviders();
+}
 }
 
 function submitProduct(e, id) {
@@ -1869,6 +1892,7 @@ const sell = parseFloat(document.getElementById('prodSell').value);
 const stock = parseInt(document.getElementById('prodStock').value) || 999;
 
 if (!name || !sell) { showToast('Nama dan harga jual wajib diisi', 'error'); return; }
+if (!operator) { showToast('Pilih operator/provider', 'error'); return; }
 
 if (id) {
 const p = data.products.find(x => x.id === id);
@@ -1900,7 +1924,7 @@ showToast('Produk dihapus');
 }
 
 // ================================================================
-//  OPERATORS, PAYMENTS, SUBSCRIPTIONS, VOUCHERS (sama seperti sebelumnya)
+//  OPERATORS, PAYMENTS, SUBSCRIPTIONS, VOUCHERS
 // ================================================================
 
 function renderOperators() {
@@ -2312,7 +2336,7 @@ document.getElementById('receiptModalOverlay').classList.remove('show');
 }
 });
 
-console.log('Utomo Cell App loaded with expanded products.');
+console.log('Utomo Cell App loaded with dynamic category-provider mapping.');
 </script>
 </body>
 </html>
